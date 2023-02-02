@@ -1,0 +1,1330 @@
+% !TeX program = xelatex
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage[x11names,table]{xcolor}
+\usepackage{graphicx}
+\usepackage[title]{appendix}
+\usepackage{caption}
+\usepackage[document]{ragged2e}
+\usepackage[spanish]{babel}
+\decimalpoint
+\usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage[backend=biber,sorting=nty,bibstyle=apa,citestyle=numeric]{biblatex}
+\usepackage{listings}
+\usepackage{fontspec}
+\usepackage{notomath}
+\addbibresource{seminario.bib}
+\setmainfont{Segoe UI}
+\setmonofont{Consolas}
+
+\setlength{\arrayrulewidth}{.075em}
+
+\newcommand{\arccsc}{\ensuremath{\operatorname{arccsc}}}
+\newcommand{\arcsec}{\ensuremath{\operatorname{arcsec}}}
+\newcommand{\arccot}{\ensuremath{\operatorname{arccot}}}
+\newcommand{\csch}{\ensuremath{\operatorname{csch}}}
+\newcommand{\sech}{\ensuremath{\operatorname{sech}}}
+\newcommand{\arcsinh}{\ensuremath{\operatorname{arcsinh}}}
+\newcommand{\arccosh}{\ensuremath{\operatorname{arccosh}}}
+\newcommand{\arctanh}{\ensuremath{\operatorname{arctanh}}}
+\newcommand{\arccsch}{\ensuremath{\operatorname{arccsch}}}
+\newcommand{\arcsech}{\ensuremath{\operatorname{arcsech}}}
+\newcommand{\arccoth}{\ensuremath{\operatorname{arccoth}}}
+
+\newcommand{\dif}{\ensuremath{\,\mathrm{d}}}
+\newcommand{\Dif}{\ensuremath{\,\mathrm{D}}}
+\newcommand{\derivative}[2]{\ensuremath{\frac{\mathrm{d}#2}{\mathrm{d}#1}}}
+\newcommand{\pderivative}[2]{\ensuremath{\frac{\mathrm{\partial}#2}{\mathrm{\partial}#1}}}
+
+\newcommand{\sint}[1]{\ensuremath{\int\limits_{#1}}}
+\newcommand{\dint}[1]{\ensuremath{\iint\limits_{#1}}}
+\newcommand{\trint}[1]{\ensuremath{\iiint\limits_{#1}}}
+
+\renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\stdi}{\ensuremath{\mbox{\textbf{\^{i}}}}}
+\newcommand{\stdj}{\ensuremath{\mbox{\textbf{\^{\j}}}}}
+\newcommand{\stdk}{\ensuremath{\mbox{\textbf{\^{k}}}}}
+\newcommand{\std}[1]{\ensuremath{\mbox{\textbf{\^{#1}}}}}
+\newcommand{\norm}[1]{\ensuremath{\left|\left|#1\right|\right|}}
+\newcommand{\dotproduct}[2]{\ensuremath{\left\langle#1,#2\right\rangle}}
+\newcommand{\projection}[2]{\ensuremath{\,\mathbf{proj}_{#2}\,#1\,}}
+
+\newcommand{\Inn}{\ensuremath{\operatorname{Inn}}}
+\newcommand{\Aut}{\ensuremath{\operatorname{Aut}}}
+\newcommand{\image}{\ensuremath{\operatorname{Im}}}
+\newcommand{\id}{\ensuremath{\operatorname{id}}}
+\newcommand{\supp}{\ensuremath{\operatorname{supp}}}
+\newcommand{\Orb}{\ensuremath{\operatorname{Orb}}}
+\newcommand{\Stab}{\ensuremath{\operatorname{Stab}}}
+\newcommand{\Sym}{\ensuremath{\operatorname{Sym}}}
+\newcommand{\Fix}{\ensuremath{\operatorname{Fix}}}
+
+\newcommand{\prob}{\ensuremath{\operatorname{P}}}
+\newcommand{\expected}{\ensuremath{\operatorname{E}}}
+\newcommand{\variance}{\ensuremath{\operatorname{Var}}}
+\newcommand{\covariance}{\ensuremath{\operatorname{Cov}}}
+\newcommand{\correlation}{\ensuremath{\operatorname{Cor}}}
+\newcommand{\MSE}{\ensuremath{\operatorname{ECM}}}
+\newcommand{\bias}{\ensuremath{\operatorname{Sesgo}}}
+\newcommand{\RE}{\ensuremath{\operatorname{ER}}}
+\newcommand{\Beta}{\ensuremath{\operatorname{Beta}}}
+\newcommand{\B}{\ensuremath{\operatorname{B}}}
+\newcommand{\LI}{\ensuremath{\operatorname{IV}}}
+\newcommand{\RVP}{\ensuremath{\operatorname{RVP}}}
+\newcommand{\AR}{\ensuremath{\operatorname{AR}}}
+\newcommand{\MA}{\ensuremath{\operatorname{MA}}}
+\newcommand{\ARMA}{\ensuremath{\operatorname{ARMA}}}
+\newcommand{\ARIMA}{\ensuremath{\operatorname{ARIMA}}}
+
+\newenvironment{amatrix}[1]{%
+		\left(\begin{array}{@{}*{#1}{c}|c@{}}
+			}{%
+			\end{array}\right)
+	}
+
+\theoremstyle{definition}
+\newtheorem{example}{Ejemplo}
+\newtheorem{definition}{Definición}[section]
+\theoremstyle{theorem}
+\newtheorem{theorem}[definition]{Teorema}
+\newtheorem{lemma}[definition]{Lema}
+\newtheorem{proposition}[definition]{Proposición}
+\newtheorem{corollary}[definition]{Corolario}
+\renewcommand\qedsymbol{\(\blacksquare\)}
+\theoremstyle{remark}
+\newtheorem*{solution}{Solución}
+
+\definecolor{codegreen}{RGB}{74,182,103}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{RGB}{214,157,133}
+\definecolor{codeblue}{RGB}{112,176,224}
+\definecolor{backcolour}{RGB}{30,30,30}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codeblue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize\color{white},
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+\fancyhf{}
+\pagestyle{fancy}
+\rhead{\rightmark}
+\lhead{Seminario del Módulo de Estadística}
+\cfoot{\thepage}
+
+%\addto\captionsspanish{\renewcommand*{\contentsname}{Fundamentos teóricos}}
+\lstset{basicstyle=\small,style=mystyle}
+\begin{document}
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\centering
+		\includegraphics[width=0.25\textwidth]{../logo}\par\vspace{1cm}
+		{\scshape\huge Universidad de Guadalajara\par}
+		{\scshape\LARGE Seminario del Módulo de Estadística\par}
+		\vspace*{1em}
+		{\huge\bfseries Estimaciones de contagios por COVID-19 en México utilizando un modelo ARIMA\par}
+		\vspace*{1em}
+		{\Large Erik Alberto Ríos Mena\par}
+		{\Large\textit{Asesora}: Mtra. Lizbeth Díaz Caldera\par}
+		\vfill
+		{\large Mayo de 2022\par}
+	\end{titlepage}
+	\pagenumbering{roman}
+	\rhead{}
+	\tableofcontents
+	\clearpage
+	\listoftables
+	\listoffigures
+	\clearpage
+	\pagenumbering{arabic}
+	\rhead{Introducción}
+	\addcontentsline{toc}{section}{Introducción}
+	\section*{Introducción}
+	\justify La pandemia de COVID-19, causada por el virus SARS-CoV-2 -- coloquialmente llamado coronavirus --, comenzó a principios de diciembre del 2019 en Wuhan, China, y llegó a México en febrero del 2020. Más de dos años después aún sufrimos los efectos de esta enfermedad y las restricciones que impone en la vida diaria. Una de las principales razones por las que el virus sigue afectando nuestras vidas después de tanto tiempo es su alta tasa de contagios, debido parcialmente a la capacidad de transmisión del virus SARS-CoV-2 incluso si una persona enferma no padece síntomas de COVID-19, así como sus mutaciones genéticas: la variante B.1.1.7, también denominada ``Alfa'', un poco más infecciosa y fatal\cite{fort2021model}; la variante B.1.617.2, de nombre ``Delta'', igual de infecciosa pero más mortal\cite{bian2021impact}; y la variante denominada B.1.1.529, coloquialmente conocida como ``Omicrón'', menos severa en cuanto a síntomas y fatalidades, pero muchísimo más contagiosa\cite{gowrisankar2022omicron}; entre muchas otras, las cuales no han sido denominadas ``variantes preocupantes''. \\
+	\indent El propósito de este proyecto es, en base a los casos de COVID-19 en México, encontrar un modelo que nos permita predecir cómo avanzaría la pandemia a partir del mes de mayo del año 2022, utilizando métodos inferenciales para aplicarle un modelo a los casos diarios. Para ello, se considerarán los datos de casos confirmados recolectados por el \textit{CONACyT}\cite{web:conacyt}, cuya recolección inició el 26 de febrero del 2020 y continúa al día de hoy; en el contexto de este trabajo, se considerarán datos obtenidos hasta el 30 de abril del 2022. Utilizando métodos de series de tiempo, más precisamente, un modelo de autorregresión y media movible integrado -- también llamado modelo \(\ARIMA\) -- con lo cual se busca realizar un ajuste de modelo a los datos obtenidos, vistos como una serie de tiempo, así como generar predicciones tras haber elegido los parámetros de modelo que se ajusten mejor a los datos. Para lograr esto, se probaron \(1000\) modelos, ajustados individualmente a la serie considerando sólo ciertos periodos de tiempo, y se escogió aquel que minimizase el error, de cierta manera.
+	\clearpage
+	\rhead{\rightmark}
+	\section{Marco contextual}
+	\noindent\justify El modelado para ajustar a y pronosticar contagios y/o defunciones causados por diversas enfermedades es un tema de aplicaciones frecuente y la pandemia de SARS-CoV-2 no es la excepción. En marzo del 2020, algunos meses después de que se iniciara cuarentena en muchas regiones del mundo, Dehesh et al.\cite{dehesh2020forecasting} aplicaron una variedad de modelos \(\ARIMA\) a los casos diarios en China, Italia, Corea del Sur, Irán y Tailandia. En abril, BBVA comisionó un estudio de Ng y Serrano\cite{ng2020mexico} donde se aplicó un modelo a los casos diarios que había en México. Ese mismo mes, Tandon et al.\cite{tandon2020coronavirus} ajustaron un modelo \(\ARIMA\) a los casos diarios en la India. En octubre de ese mismo año, Kumar y Susan\cite{kumar2020covid} utilizaron dos métodos de series de tiempo, incluyendo un modelo \(\ARIMA\), y los comparan en los casos de diez países: Estados Unidos, España, Italia, Francia, Alemania, Rusia, Irán, el Reino Unido, Turquía e India, con el propósito de verificar cuál método da mejor ajuste a los datos. Más recientemente, a principios del 2022, Gowrisankar et al.\cite{gowrisankar2022omicron} aplicaron un modelo de media movible -- un caso especial del modelo \(\ARIMA\) -- a los casos positivos diarios en Dinamarca, Alemania, India, Países Bajos, Sudáfrica y el Reino Unido para intentar pronosticar cómo la variante ``Omicrón'', que en ese momento era más reciente, podría afectar a la cantidad de casos registrados en dichos países. \\
+	\indent Claramente, como los ejemplos muestran arriba, aplicar modelos de autorregresión y media movible integrados a los datos relacionados a la pandemia -- ya sea de casos diarios y/o defunciones -- vistos como series de tiempo es muy popular y práctico. Sin embargo, no son por los únicos modelos. Por ejemplo, en un artículo publicado en 2021, Zumaya\cite{zumaya2021expansion} aplicó un modelo de vector de corrección de error a los casos diarios de SARS-CoV-2 en México, vistos como una serie de tiempo. En mayo de 2020, Malki et al.\cite{malki2021arima} usaron una extensión del modelo \(\ARIMA\) con los datos de casos diarios mundiales para intentar predecir cuándo podría terminar la pandemia y un riesgo de una segunda ola -- en aquel momento --, y se llegó a que su modelo esperaba que el número de casos confirmados más altos sería entre diciembre de 2020 y abril de 2021. Claro, esto era antes de que la variante Omicrón apareciera, pero se acercó bastante considerando lo poco que se sabía entonces.
+	\clearpage
+	\section{Fundamentos estadísticos}
+	\noindent La gran parte de resultados de esta sección fueron obtenidos de \autocite{hoggmckeancraig}.
+	\subsection{Conceptos básicos de estadística}
+	\noindent\justify Antes de hacer inferencia sobre un conjunto de datos necesitamos entender cómo describir los datos que tenemos. Para ello, este capítulo introducirá brevemente algunos de estos conceptos.
+	\begin{definition}[Valor esperado]
+		Sea \(X\) una variable aleatoria. La \textit{esperanza} o \textit{valor esperado} de \(X\) se denota \(\expected[X]\) y se define de la siguiente manera:
+		\begin{enumerate}
+			\item Si \(X\) tiene una distribución discreta, \[\expected[X]=\sum_xxf_X(x).\]
+			\item Si \(X\) tiene una distribución continua, \[\expected[X]=\int_{-\infty}^{\infty}xf_X(x)\dif x.\]
+		\end{enumerate}
+		En ocasiones, a la esperanza se le llama media. En esos casos, suele denotarse como \(\mu\).
+	\end{definition}
+	\begin{proposition}
+		Sean \(X,Y\) variables aleatorias con la misma distribución y \(a,b\in\mathbb{R}\). Entonces \[\expected[aX+bY]=a\expected[X]+b\expected[Y].\]
+	\end{proposition}
+	\begin{proof}
+		Ambos casos son similares. Veamos que
+		\begin{align*}
+			\expected[aX+bY]&=\sum_x(ax+bx)f_X(x)=a\sum_xxf_X(x)+b\sum_yyf_Y(y)=a\expected[X]+b\expected[Y], \\
+			\expected[aX+bY]&=\int_{-\infty}^{\infty}(ax+bx)f_X(x)\dif x=a\int_{-\infty}^{\infty}xf_X(x)\dif x+b\int_{-\infty}^{\infty}yf_Y(y)\dif y=a\expected[X]+b\expected[Y],
+		\end{align*}
+		como queríamos.
+	\end{proof}
+	\begin{definition}[Varianza]
+		Sea \(X\) una variable aleatoria y \(\mu=\expected[X]\). La \textit{varianza} de \(X\) se denota \(\variance[X]\) y se define como \[\variance[X]:=\expected\left[(X-\mu)^2\right].\]
+	\end{definition}
+	\begin{proposition}
+		Sea \(X\) una variable aleatoria y \(\mu=\expected[X]\). Se cumple que \[\variance[X]=\expected\left[X^2\right]-\expected[X]^2.\]
+	\end{proposition}
+	\begin{proof}
+		Tenemos que
+		\begin{align*}
+			\variance[X]&=\expected\left[(X-\expected[X])^2\right] \\
+			&=\expected\left[X^2-2X\expected[X]+\expected[X]^2\right] \\
+			&=\expected\left[X^2\right]-2\expected[X]\expected[X]+\expected[X]^2 \\
+			&=\expected\left[X^2\right]-\expected[X]^2,
+		\end{align*}
+		como queríamos.
+	\end{proof}
+	\begin{definition}[Muestra aleatoria]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\), donde \(\overset{iid}{\sim}\) indica que las variables son independientes (es decir, \(\expected[XY]=\expected[X]\expected[Y]\)) e idénticamente distribuidas (en este caso, todas tienen función de distribución \(f\)). En este caso, decimos que las variables aleatorias constituyen un \textit{muestra aleatoria} de tamaño \(n\) con distribución \(f\).
+	\end{definition}
+	El concepto de muestra es fundamental a la inferencia. Ahora podemos introducir algunas características de la muestra relacionadas a la esperanza y varianza.
+	\begin{definition}[Media muestral]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\). La \textit{media muestral} de las \(X_i\) se denota \(\overline{X}\) y se define como \[\overline{X}:=\frac{1}{n}\sum_{i=1}^{n}X_i,\] es decir, es la media aritmética de nuestras variables aleatorias.
+	\end{definition}
+	\begin{definition}[Varianza muestral]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\). La \textit{varianza muestral} de las \(X_i\) se denota \(s^2\) y se define como \[s^2:=\frac{1}{n-1}\sum_{i=1}^{n}(X_i-\overline{X})^2.\]
+	\end{definition}
+	\begin{definition}[Covarianza muestral]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\). La \textit{covarianza muestral} de las \(X_i\) se denota \(s_{jk}^2\) y se define como \[s_{jk}^2:=\frac{1}{n-1}\sum_{i=1}^{n}(X_{ij}-\overline{X})(X_{ik}-\overline {X}).\]
+	\end{definition}
+	\noindent\textit{Observación}: el uso de \(\frac{1}{n-1}\) en vez de \(\frac{1}{n}\) es comúnmente llamado \textit{corrección de Bessel}. \par
+	Finalmente, tenemos dos propiedades importantes relacionadas a sucesiones de variables, y un teorema que no será demostrado.
+	\begin{definition}[Convergencia en distribución]
+		Sea \(\{X_n\}\) una sucesión de variables aleatorias. Decimos que \(\{X_n\}\) \textit{converge en distribución} a \(X\) si
+		\[\lim_{n\to\infty}F_n(x)=F(x),\]
+		donde \(F_n\) es la función de distribución acumulada de \(X_n\). Esto se denota como \(X_n\overset{d}{\longrightarrow}X\).
+	\end{definition}
+	\begin{definition}[Convergencia en probabilidad]
+		Sea \(\{X_n\}\) una sucesión de variables aleatorias. Decimos que \(\{X_n\}\) \textit{converge en probabilidad} a \(X\) si
+		\[\lim_{n\to\infty}\prob(|X_n-X|>\epsilon)=0.\]
+		Esto se denota como \(X_n\overset{p}{\longrightarrow}X\).
+	\end{definition}
+	\begin{theorem}[Central del límite] \label{tcl}
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\), con \(\expected[X_i]=\mu\) y \(\variance[X_i]=\sigma^2<\infty\). Conforma \(n\to\infty\), la sucesión de variables aleatorias \[\frac{\sqrt{n}\left(\overline{X}_n- \mu\right)}{\sigma}\]
+		convergen en distribución a una variable aleatoria normal estándar, esto es,
+		\[\frac{\sqrt{n}\left(\overline{X}_n-\mu\right)}{\sigma}\overunderset{d}{n\to\infty}{\longrightarrow}N(0,1).\]
+	\end{theorem}
+	\subsection{Estimadores y estimaciones}
+	\subsubsection{Introducción y propiedades}
+	\noindent\justify La teoría de estimación es una parte fundamental de la inferencia estadística, ya que la mayoría, si no es que todos los métodos utilizados al realizar hipótesis y pruebas inferenciales requieren en la práctica que estimemos ya sean los parámetros de alguna distribución, o la misma función de distribución o de densidad que toma una muestra de valores conocidos, los cuales suponemos vienen -- formalmente, son una \textit{realización} -- de una muestra aleatoria.
+	\begin{definition}[Estadístico]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\). Un \textit{estadístico} es simplemente una función de la muestra de variables aleatorias \(T=T(X_1,\dots,X_n)\).
+	\end{definition}
+	Cuando \(x_1,\dots,x_n\) son realizaciones de una muestra aleatoria \(X_1,\dots,X_n\), denotamos a \(T(x_1,\dots,x_n)\) como \(t\) y lo llamamos \textit{realización} del estadístico.
+	\begin{definition}[Estimador puntual]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(T\) un estadístico de estas variables. Denotamos a \(T\) como \(\hat{\theta}\) y decimos que es un \textit{estimador} o \textit{estimador puntual} de \(\theta\) si usamos a \(\hat{\theta}\) para inferir sobre el valor verdadero de \(\theta\). \\
+		A la realización del estimador la llamamos \textit{estimado}.
+	\end{definition}
+	Existen varias propiedades de los estimadores que, de ser cumplidas, son un buen indicador de su calidad.
+	\begin{definition}[Sesgo]
+		Sea \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\hat{\theta}\) un estimador de \(\theta\). El \textit{sesgo} de \(\hat{\theta}\) se define como \[\bias(\hat{\theta}):=\expected[\hat{\theta}]-\theta.\] Si \(\bias (\hat{\theta})=0\), decimos que \(\hat{\theta}\) es un estimador \textit{insesgado} de \(\theta\).
+	\end{definition}
+	En términos intuitivos, el sesgo es una manera de ver cuánto esperamos que se aleje o acerque el valor de nuestro estimador comparado al parámetro real.
+	\begin{definition}[Consistencia]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\theta_n\) un estadístico de estas variables. Decimos que \(\theta_n\) es un estimador \textit{consistente} de \(\theta\) si
+		\[\theta_n\overunderset{p}{n\to\infty}{\longrightarrow}\theta.\]
+	\end{definition}
+	La consistencia indica que, al aumentar nuestro tamaño de muestra, crece la probabilidad de que el estadístico que tomamos sea o se acerque el verdadero parámetro poblacional. \\
+	Para la siguiente propiedad necesitamos unos resultados preeliminares.
+	\begin{definition}[Información de Fisher] \label{defFisher}
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\). Definimos a la \textit{información de Fisher} de nuestra muestra como
+		\[I_n(\theta)=n\expected\left[\left(\pderivative{\theta}{}\log f(x;\theta)\right)^2\right].\]
+		Cuando \(n=1\) denotamos a \(I_n\) simplemente como \(I\).
+	\end{definition}
+	La siguiente definición enumera una serie de condiciones que cumplen la mayoría de distribuciones tradicionales y que, más aún, ayudan a simplificar el cálculo de muchos resultados.
+	\begin{definition}[Condiciones de regularidad]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f\). A las siguientes tres condiciones se les llaman \textit{condiciones de regularidad}:
+		\begin{itemize}
+			\item Si \(\theta\neq\theta'\), entonces las funciones de densidad son distintas; es decir, \(F(x_i;\theta)\neq F(x_i;\theta')\).
+			\item Para cualquier valor de \(\theta\) la función de distribución \(f(x_i;\theta)\) tiene el mismo soporte\footnote{En teoría de la medida, el \textit{soporte} de una variable aleatoria es el conjunto cerrado \(R_X\subset\mathbb{R}\) más pequeño donde \(\Pr(X\in R_X)=1\).}.
+			\item Si \(\theta_0\) es el valor verdadero de \(\theta\), entonces \(\theta_0\) vive en el interior del espacio muestral \(\Omega\).
+		\end{itemize}
+	\end{definition}
+	\noindent\textit{Observación}: bajo condiciones de regularidad, la información de Fisher es equivalente a \[I_n(\theta)=-n\expected\left[\pderivative{\theta^2}{^2}\log f(x;\theta)\right]_{\theta}.\]
+	\indent El recíproco de la información de Fisher nos da la mínima varianza que puede tener un estimador. Esto lo podemos formalizar por medio del siguiente resultado.
+	\begin{theorem}[Cota de Cramér-Rao] \label{teoremaCota}
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\hat{\theta}\) un estimador de \(\theta\). Si \(\hat{\theta}\) es insesgado, la siguiente desigualdad se cumple: \[\variance[\hat{\theta}]\geq\frac{1}{I_n(\theta) }.\]
+	\end{theorem}
+	\begin{proof}
+		Basta demostrar la cota para una variable aleatoria \(X\sim f(x;\theta)\). Definamos a \(S\) como el \textit{score}:
+		\[S=\pderivative{\theta}{}\log f(x;\theta)=\frac{\pderivative{\theta}{}f(x;\theta)}{f(x;\theta)}.\]
+		Observemos que
+		\[E[S]=\int_{-\infty}^{\infty}\frac{\pderivative{\theta}{}f(x;\theta)}{f(x;\theta)}f(x;\theta)\dif\theta=\int_{-\infty}^{\infty}\pderivative{\theta}{}f(x;\theta)\dif\theta=\pderivative{\theta}{}\int_{-\infty}^{\infty}f(x;\theta)\dif\theta=\pderivative{\theta}{}1=0,\]
+		así que \(\covariance(S,\hat{\theta})=E[S\hat{\theta}]\). Se sigue que
+		\begin{align*}
+			\covariance(S,\hat{\theta})&=E[S\hat{\theta}] \\
+			&=E\left[\hat{\theta}\frac{\pderivative{\theta}{}f(x;\theta)}{f(x;\theta)}\right] \\
+			&=\int_{-\infty}^{\infty}\hat{\theta}\frac{\pderivative{\theta}{}f(x;\theta)}{f(x;\theta)}f(x;\theta)\dif\theta \\
+			&=\int_{-\infty}^{\infty}\hat{\theta}\pderivative{\theta}{}f(x;\theta)\dif\theta \\
+			&=\pderivative{\theta}{}\int_{-\infty}^{\infty}\theta f(x;\theta)\dif\theta \\
+			&=\pderivative{\theta}{}E[\hat{\theta}] \\
+			&=\pderivative{\theta}{}\theta \\
+			&=1.
+		\end{align*}
+		Para terminar, veamos que la desigualdad de Cauchy-Schwartz establece que
+		\[|\dotproduct{u}{v}|^2\leq\dotproduct{u}{u}\cdot\dotproduct{v}{v}.\]
+		Definamos el producto interior de dos variables aleatorias \(X,Y\) como la esperanza de su producto\footnote{Es fácil ver que esto es un producto interior sobre \(\mathbb{R}\) pues, como las variables aleatorias conmutan y distribuyen, \(\dotproduct{X}{Y}=\expected[XY]=\expected[YX]=\dotproduct{Y}{X}\); \(\dotproduct{aX+bY}{Z}=\expected[(aX+bY)Z]=\expected[aXZ+bYZ]=a\expected[XZ]+b\expected[YZ]=a\dotproduct{X}{Z}+b\dotproduct{Y}{Z}\); y como \(X^2\geq0\), se sigue que \(\dotproduct{X}{X}=E[X^2]\geq0\).}:
+		\[\dotproduct{X}{Y}=\expected[XY].\]
+		Observemos que
+		\begin{align*}
+			|\covariance(S,\hat{\theta})|^2&=\left|\expected\left[(S-\expected[S])(\hat{\theta}-\expected[\hat{\theta}])\right]\right|^2 \\
+			&\leq\expected\left[(S-\expected[S])^2\right]\cdot\expected\left[(\hat{\theta}-\expected[\hat{\theta}])^2\right] \\
+			&=\variance[S]\variance[\hat{\theta}].
+		\end{align*}
+		Como \(\covariance(S,\hat{\theta})=1\) llegamos a que \(\variance[S]\variance[\hat{\theta}]\geq1\). Pero
+		\[\variance[S]=\expected\left[(S-\expected[S])^2\right]=\expected[S^2]=\expected\left[\left(\frac{\pderivative{\theta}{}f(x;\theta)}{f(x;\theta)}\right)^2\right]=I(\theta).\]
+		Dividiendo por \(I(\theta)\) obtenemos lo que queríamos.
+	\end{proof}
+	\begin{definition}[Eficiencia]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\hat{\theta}\) un estimador insesgado de \(\theta\). Decimos que \(\hat{\theta}\) es \textit{eficiente} si \(\variance[\hat{\theta}]=\frac{1}{I_n(\theta)}\) (es decir, se alcanza la cota de Cramér-Rao). \\
+		La \textit{eficiencia} de \(\hat{\theta}\) se denota \(e(\hat{\theta})\) y se define como \[e(\hat{\theta})=\frac{\frac{1}{I_n(\theta)}}{\variance[\hat{\theta}]}\]
+	\end{definition}
+	Por la cota de Cramér-Rao se sigue que \(e(\hat{\theta})\leq1\). Valores cercanos a 1 indican un mejor estimador. Podemos definir un concepto análogo a la eficiencia para comparar dos estimadores utilizando sus varianzas.
+	\begin{definition}[Eficiencia relativa]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(T_1,T_2\) estimadores insesgados de \(\theta\). La \textit{eficiencia relativa} de \(T_1\) y \(T_2\) se denota \(\RE(T_1,T_2)\) y se define como \[\RE(T_1,T_2)= \frac{\variance[T_2]}{\variance[T_1]}.\]
+	\end{definition}
+	En caso de que la eficiencia relativa no dependa de \(\theta\), lo cual sucede en muchas ocasiones, diremos que \(T_1\) es preferible a \(T_2\) si \(\RE(T_1,T_2)>1\), con \(T_1\) siendo preferible si la eficiencia relativa es menor a 1. En caso de igualdad, necesitaríamos considerar criterios distintos. El siguiente podría ser de utilidad, pues no requiere que los estimadores sean insesgados, así que es un modo de verificar el error de un estimador con más generalidad.
+	\begin{definition}[Error cuadrático medio]
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\hat{\theta}\) un estimador de \(\theta\). El \textit{error cuadrático medio} (comúnmente abreviado ECM) de \(\hat{\theta}\) se denota \(\MSE(\hat{\theta})\) y se define como \[\MSE(\hat{\theta})=\expected\left[(\hat{\theta}-\theta)^2\right].\]
+	\end{definition}
+	El error cuadrático medio de un estimador puede ser expresado en términos de su varianza y sesgo de la siguiente manera.
+	\begin{proposition}
+		Sean \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) y \(\hat{\theta}\) un estimador de \(\theta\). La siguiente igualdad se cumple: \[\MSE(\hat{\theta})=\variance[\hat{\theta}]+\bias(\hat{\theta})^2.\]
+	\end{proposition}
+	\begin{proof}
+		Por definición del ECM,
+		\begin{align*}
+			\MSE(\hat{\theta})&=\expected\left[(\hat{\theta}-\theta)^2\right] \\
+			&=\expected[\hat{\theta}^2]+\expected[\theta^2]-2\theta\expected[\hat{\theta}] \\
+			&=\variance[\hat{\theta}]+\expected[\hat{\theta}]^2+\theta^2-2\theta\expected[\hat{\theta}] \\
+			&=\variance[\hat{\theta}]+(\expected[\hat{\theta}]-\theta)^2 \\
+			&=\variance[\hat{\theta}]+\bias(\hat{\theta})^2,
+		\end{align*}
+		como queríamos.
+	\end{proof}
+	Se sigue un corolario cuya demostración es trivial.
+	\begin{corollary}
+		Si \(\hat{\theta}\) un estimador insesgado de \(\theta\) entonces \(\MSE(\hat{\theta})=\variance[\hat{\theta}].\)
+	\end{corollary}
+	\subsubsection{Estimadores de máxima verosimilitud}
+	\noindent En la práctica, la mayoría de los casos no conocemos el valor verdadero \(\theta_0\) de un parámetro \(\theta\) a estimar. Entonces, nuestro objetivo es encontrar un estimación la cual se asemeje lo más posible a \(\theta_0\). Un método para encontrar a dicho estimador se basa en la función de verosimilitud, introducida a continuación.
+	\begin{definition}[Función de verosimilitud]
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\). La \textit{función de verosimilitud} de \(\theta\), denotada \(L(\theta)\), es la distribución conjunta de las variables aleatorias \(X_i\) vistas como funciones de \(\theta\). Si estas son independientes podemos expresar a \(L\) como \[L(\theta):=\prod_{i=1}^{n}f(X_i;\theta).\]
+		La \textit{log-verosimilitud} de \(\theta\) se denota como \(\ell(\theta)\) y es simplemente \(\log L(\theta)\). En el caso anterior: \[\ell(\theta):=\sum_{i=1}^{n}\log f(X_i;\theta).\]
+	\end{definition}
+	En casi todos los casos es preferible trabajar con la log-verosimilitud pues es más sencilla, como se verá a continuación. \\
+	Ahora bien, buscamos estimar a \(\theta\) en base a \(L\) (ó \(\ell\)). Para esto, buscamos el valor donde esta alcance su máximo, pues esto es donde existe más parecido con \(\theta_0\), dado que sólo conocemos la muestra.
+	\begin{definition}[Estimador de máxima verosimilitud]
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\). El \textit{estimador de máxima verosimilitud} de \(\theta\) (comúnmente abreviado EMV o MLE) se denota \(\hat{\theta_n}\) y es el punto donde la función de verosimilitud se maximiza, es decir, \[\hat{\theta}_n:=\underset{\theta}{\arg\max}\ L(\theta).\]
+	\end{definition}
+	Cuando conocemos a \(f\), y esta es diferenciable, podemos maximizar a \(L\) (ó a \(\ell\)) resolviendo el sistema de ecuaciones \(\pderivative{\theta}{L}=0\). En muchos casos no conocemos a \(f\), o el sistema no tiene una forma en funciones elementales, así que se acostumbra a maximizar la función utilizando métodos numéricos como descenso de gradiente. \par
+	A continuación introducimos algunas propiedades de los estimadores de máxima verosimilitud.
+	\begin{theorem} \label{teoremaProps}
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\) y \(\hat{\theta_n}\) el estimador de máxima verosimilitud de \(\theta\). Bajo condiciones de regularidad las siguientes propiedades se cumplen:
+		\begin{enumerate}
+			\item \textit{Invarianza}: si \(\alpha=g(\theta)\) entonces \(\hat{\alpha_n}=g(\hat{\theta_n})\).
+			\item \textit{Consistencia}: el EMV de \(\theta\) converge en probabilidad al valor verdadero, i.e. \(\hat{\theta_n}\overunderset{p}{n\to\infty}{\longrightarrow}\theta_0\).
+			\item \textit{Normalidad asintótica}: la sucesión converge en distribución a una normal estándar: \[\frac{\sqrt{n}\left(\hat{\theta_n}-\theta\right)}{\sqrt{\frac{1}{I_n(\theta)}}}\overunderset{d}{n\to\infty} {\longrightarrow}N(0,1).\]
+		\end{enumerate}
+	\end{theorem}
+	\begin{proof}
+		Tenemos lo siguiente.
+		\begin{enumerate}
+			\item Tomemos a la preimagen de \(g(\alpha)\), para cualesquier \(\alpha\): \[g^{-1}(\alpha):=\{\theta:g(\theta)=\alpha\}.\] El máximo de esta ocurre en \(\hat{\theta_n}\). Como el dominio de \(g\) es el espacio parametral, tenemos que \(\hat {\theta_n}\in g^{-1}(\alpha)\). Tomamos a \(\hat{\alpha_n}\) tal que \(g^{-1}(\hat{\alpha_n})\) sea la única preimagen que contenga a \(\hat{\theta_n}\). Así \(\hat{\alpha_n}=g(\hat {\theta_n})\).
+			\item Sean \(\epsilon>0\) y \[S_n:=\{\boldsymbol{X}:\ell(\theta_0;\boldsymbol{X})>\ell(\theta_0-\epsilon;\boldsymbol{X})\}\cap\{\boldsymbol{X}:\ell(\theta_0;\boldsymbol{X})>\ell(\theta_0+\epsilon;\boldsymbol{X})\}\] un evento. En el emv de \(\theta\) restringido a \((\theta_0-\epsilon,\theta_0+\epsilon)\) tenemos que \(\ell'(\hat{\theta_n})=0\), así que
+			\[S_n\subset\left\{\boldsymbol{X}:\left|\hat{\theta_n}-\theta\right|\leq\epsilon\right\}\cap\left\{\boldsymbol{X}:\ell'\left(\hat{\theta_n}\right)=0\right\}.\]
+			Luego
+			\[1=\lim_{n\to\infty}S_n\leq\underset{n\to\infty}{\limsup}\prob\left(\left\{\boldsymbol{X}:\left|\hat{\theta_n}-\theta\right|\leq\epsilon\right\}\cap\left\{\boldsymbol{X}:\ell'\left(\hat{\theta_n}\right)=0\right\}\right)\leq1,\]
+			y por el teorema del sándwich la probabilidad es \(1\) cuando \(n\to\infty\), i.e.,
+			\[\prob\left(\left\{\boldsymbol{X}:\left|\hat{\theta_n}-\theta\right|\leq\epsilon\right\}\right)=1\Longrightarrow\prob\left(\left\{\boldsymbol{X}:\left|\hat{\theta_n}-\theta\right|>\epsilon\right\}\right)=0,\]
+			que es la definición de consistente.
+			\item Consecuencia del teorema central del límite.
+		\end{enumerate}
+	\end{proof}
+	\subsection{Intervalos de confianza}
+	\noindent En ocasiones prácticas necesitamos más que sólo una estimación de un valor para el parámetro. Existe más incertidumbre y por ende nos gustaría decir con una confianza cuáles valores podría tomar un parámetro de algún modelo. Es por ello que introduciremos un intervalo o región donde podemos hablar de más valores, pero primero necesitamos unos conceptos auxiliares.
+	\begin{definition}[Cantidad pivotal]
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\) y \(Q=Q(X_1,\dots,X_n;\theta)\) una función de la muestra y el parámetro \(\theta\). Si la distribución de \(Q\) no depende de \(\theta\), es decir, \(Q~g(x;\alpha)\) para algún \(\alpha\neq\theta\), llamamos a \(Q\) una \textit{cantidad pivotal}.
+	\end{definition}
+	Las cantidades pivotales nos permiten expresar a \(\theta\) como una variable aleatoria la cuál no depende de sí misma, cosa que las hace indispensables para los intervalos de confianza pues podemos asignar probabilidades a \(\theta\) sin saber su valor en primer lugar. Ahora sí podemos introducir los intervalos de confianza.
+	\begin{definition}[Intervalo de confianza]
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\), \(\alpha\in(0,1)\) y \(L=L(X_1,\dots,X_n)\) y \(U=U(X_1,\dots,X_n)\) dos estadísticos de nuestra muestra. Llamamos \textit{intervalo de confianza} de \(100(1-\alpha)\%\) al intervalo \((L,U)\) si \[\Pr(\theta\in(L,U))=1-\alpha.\]
+	\end{definition}
+	\begin{definition}[Intervalo de confianza con cantidad pivotal]
+		Sean \(X_1,\dots,X_n\sim f(x;\theta)\), \(\alpha\in(0,1)\) y \(Q\) una cantidad pivotal para \(\theta\). Llamamos \textit{intervalo de confianza} de \(100(1-\alpha)\%\) al intervalo \((l,u)\), \(l,u\in\mathbb{R}\), si \[\Pr(a<Q<b)=1-\alpha.\]
+	\end{definition}
+	\subsection{Pruebas de hipótesis}
+	\noindent\justify Ya introdujimos la estimación puntual y los intervalos de confianza como métodos para realizar inferencia sobre un parámetro. Otra clase de pruebas es similar en un cierto sentido al método aplicado en ciencias naturales donde, dada una hipótesis, realizamos alguna prueba o experimento para llegar a una conclusión. En estadística, llamamos una \textit{prueba de hipótesis} a esta misma idea. Para formalizarla, se introducen los siguientes conceptos.
+	\begin{definition}
+		Sea \(X\sim f(x;\theta)\). Sea \(\{\omega_1,\omega_2\}\) una partición\footnote{Es decir, \(\omega_1\cup\omega_2=\Omega\) y \(\omega_1\cap\omega_2=\emptysetAlt\).} del espacio muestral \(\Omega\); entonces \(\theta\in \omega_1\) ó \(\theta\in\omega_2\). Denotemos \(H_0\) a lo primero y \(H_1\) a lo segundo.
+		\begin{itemize}
+			\item A \(H_0:\theta\in\omega_1\) se le llama \textit{hipótesis nula}.
+			\item A \(H_1:\theta\in\omega_2\) se le llama \textit{hipótesis alternativa}.
+		\end{itemize}
+	\end{definition}
+	\begin{definition}[Prueba de hipótesis]
+		Sean \(H_0:\theta\in\omega_1\), \(H_1:\theta\in\omega_2\) las hipótesis nula y alternativa respectivamente. Una \textit{prueba de hipótesis} para \(\theta\) es un regla de decisión con la cual elegir si se rechaza \(H_0 \) en favor de \(H_1\) o no.
+	\end{definition}
+	\begin{definition}
+		Sea \(\mathcal{D}=\{(x_1,\dots,x_n):(x_1,\dots,x_n)\mbox{ es un posible valor de }(X_1,\dots,X_n)\}\), donde \(X_1,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) es una muestra aleatoria. Consideremos la prueba de hipótesis siguiente: \[\mbox{Rechazar }H_0:\theta\in\omega_0\mbox{ si }(X_1,\dots,X_n)\in C,\ C\subset\mathcal{D}.\]
+		Al subconjunto \(C\) se le llama \textit{región crítica}. Si \(T\) es un estadístico y \(C=\{(X_1,\dots,X_n):T>c\}\), a \(T\) se le llama \textit{estadístico de prueba} y a \(c\) se le llama \textit{valor crítico}.
+	\end{definition}
+	La tabla \ref{table:1} muestra los resultados de realizar la prueba de hipótesis anterior comparado con lo que realmente pasa en la realidad. Aunque en la práctica es imposible evitar completamente los errores, uno busca la manera de minimizarlos lo más que sea posible al tomar una decisión.
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|} 
+			\hline
+			& \(H_0\) es verdadera & \(H_1\) es verdadera \\
+			\hline
+			Rechazar \(H_0\) & Error tipo I & Correcto \\ 
+			\hline
+			No rechazar \(H_0\) & Correcto & Error tipo II\\
+			\hline
+		\end{tabular}
+		\caption{Tabla de decisión para una prueba de hipótesis.}
+		\label{table:1}
+	\end{table}
+	\begin{definition}
+		Sea \(H:\theta\in\omega_1\).
+		\begin{itemize}
+			\item Decimos que \(H\) es una \textit{hipótesis simple} si es de la forma \(H:\theta=\theta_0\).
+			\item Decimos que \(H\) es una \textit{hipótesis compuesta} si se conforma de varias hipótesis simples; por ejemplo, \(H:\theta<\theta_0\) o \(H:\theta\neq\theta_0\).
+		\end{itemize}
+	\end{definition}
+	\begin{definition}[Tamaño de una región crítica]
+		Decimos que una región crítica \(C\subset\mathcal{D}\) es de \textit{tamaño} \(\alpha\) si \[\underset{\theta\in\omega_1}{\max}\Pr((X_1,\dots,X_n)\in C|\theta).\] A \(\alpha\) también se le conoce como \textit{nivel de significación}.
+	\end{definition}
+	Una manera intuitiva de ver a \(\alpha\) es como el máximo de la probabilidad de cometer un error de tipo I. \\
+	En la práctica para no obtener resultados o conclusiones distintas dadas dos hipótesis similares, observar los mismos datos y aplicar la misma prueba, los estadísticos buscan ajustar el tamaño de la prueba \(\alpha\) para no ser tan aleatorios.
+	\begin{definition}[Valor \(p\)]
+		Sean \(H_0:\theta\in\omega_1\), \(H_1:\theta\in\omega_2\) las hipótesis nula y alternativa respectivamente. El \textit{valor \(p\)} es una probabilidad condicional de obtener un resultado como alguno ya observado o más extremo, dado que la hipótesis nula es verdad. Si el valor de \(p\) es menor que algún nivel de significación \(\alpha\in(0,1)\), establecido previamente, se rechaza la hipótesis nula.
+	\end{definition}
+	\begin{center}
+		\includegraphics[width=3in]{valorp.png}
+		\captionof{figure}{\centering{Gráficamente, el valor \(p\) (el valor del área sombreada) es la probabilidad del resultado ya observado o uno más extremo, suponiendo que la hipótesis nula es verdad.}}
+	\end{center}
+	Hay que tener cuidado al utilizar los valores de \(p\): no rechazar la hipótesis nula \textit{no implica} aceptarla, o que si se cumple siempre con error \(\alpha\). Las pruebas de hipótesis deben ser complementadas con intervalos o regiones de confianza, también para el mismo \(\alpha\), y estimaciones de los parámetros los cuales queramos probar. Existen otros métodos de contrastar hipótesis, como bondad de ajuste y funciones potencia, que no serán vistas aquí pues no se utilizan. Dicho esto, no se dependerá exclusivamente de los valores de \(p\) a la hora de probar hipótesis, sino que se verificarán luego con otras pruebas y/o supuestos en la sección de análisis de datos.
+	\subsection{Regresión lineal}
+	\noindent\justify Esta sección sólo tratará con regresión lineal pues es una introducción suficiente para los modelos de autorregresión y media movible vistos más adelante. Para introducir un modelo lineal, consideremos el problema de verificar la relación entre dos variables, para ver cómo se espera cambiar una en función de la otra. Digamos, tenemos un conjunto de datos \(\{y_i,x_{i1},\dots,x_{ip}\}\), \(i=1,\dots,n\). Vamos a suponer que existe una relación lineal entre los valores \(y_1,\dots,y_p\) y los \(x_{i1},\dots,x_{ip}\) es lineal, es decir,
+	\[y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\varepsilon_i,\ i=1,\dots,n,\]
+	donde \(\varepsilon_i\overset{iid}{\sim}N(0,\sigma^2)\). Buscamos encontrar los coeficientes \(\beta_i\) que mejor se ajusten a nuestros datos. Vamos a formalizar este concepto.
+	\begin{definition}[Modelo lineal]
+		Sea \(\{y_i,x_{i1},\dots,x_{ip}\}\), \(i=1,\dots,n\) un conjunto de datos. Un \textit{modelo de regresión lineal} para \(y_i\) con relación a \(x_i\) está dado por el sistema de ecuaciones \[y_i=\beta_0+\sum_{j=1}^{p}\beta_jx_{ij}+\varepsilon_i,\ i=1,\dots,n,\] donde \(\varepsilon_i\overset{iid}{\sim}N(0,\sigma^2)\). A los \(\beta_i\) se les llama \textit{parámetros} del modelo, y a \(y_i\) se le conoce como \textit{variable dependiente}.
+	\end{definition}
+	En el caso que \(\varepsilon_i\overset{iid}{\sim}N(0,\sigma^2)\) puede ser demostrado que la estimación de máxima verosimilitud de los parámetros \(\hat{\beta}_i\) es análoga a su estimación por el método de \textit{menores cuadrados ordinarios}. Para realizar esta estimación, reescribimos a nuestro modelo en forma matricial:
+	\begin{align*}
+		y_i&=\beta_0+\sum_{j=1}^{p}\beta_jx_{ij}+\varepsilon_i, \\
+		\begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}&=\begin{pmatrix}1&x_{11}&\cdots&x_{1p}\\1&x_{21}&\cdots&x_{2p}\\\vdots&\vdots&\ddots&\vdots\\1&X_{n1}&\cdots&x_{np}\end{pmatrix}\begin{pmatrix}\\\beta_0\\\beta_1\\\vdots\\\beta_p\end{pmatrix} \\
+		Y&=X\beta \\
+		X^TY&=(X^TX)\beta \\
+		\beta&=(X^TX)^{-1}X^TY,
+	\end{align*}
+	siempre que \((X^TX)^{-1}X^T\) exista. Ahora bien, para que un modelo de regresión lineal sea válido, se espera que cumpla las siguientes propiedades.
+	\begin{itemize}
+		\item \textit{Linealidad}: es decir, que la esperanza de la variable dependiente sea sólo una combinación lineal de los parámetros y las variables dependientes. Aquí, la linealidad se refiere a los coeficientes del modelo y no de las variables.
+		\item \textit{Varianza constante}: la varianza de los errores no depende de los valores de las variables dependientes. Se sigue que la variabilidad de estas, para valores fijos de las variables independientes, es igual sin importar qué valores tomen las variables dependientes. Para revisar este supuesto, se puede examinar una gráfica de residuos con las variables dependientes para verificar que no haya un ``embudo'' (i.e. un patrón vertical que crece o decrece a medida que se va de izquierda a derecha).
+		\item \textit{Errores independientes}: no hay correlación en los errores de las variables dependientes.
+	\end{itemize} \par
+	Los modelos de regresión lineal forman la base de la predicción con series de tiempo. A pesar de ser un modelo muy simple, y a veces con deficiencias al momento de querer pronosticar, pueden ser adaptados para crear modelos más avanzados que se usan hoy en día con aplicaciones que van desde finanza hasta investigación.
+	\clearpage
+	\section{Métodos estadísticos aplicados}
+	\subsection{Series de tiempo}
+	\noindent\justify Primero comenzamos introduciendo el concepto de serie de tiempo y un modelo para estas. Las definiciones para este capítulo fueron obtenidas de \autocite{brockwelldavis}.
+	\begin{definition}[Serie de tiempo] \label{defSerieTemporal}
+		Una \textit{serie de tiempo} o una \textit{serie temporal} es un conjunto de datos \(\{x_t\}\) registrados en un tiempo específico \(t\in T_o\).
+		\begin{itemize}
+			\item Una \textit{serie de tiempo discreta} es aquella en la cual el conjunto de valores para el tiempo \(T_o\) consiste en observaciones discretas. Por ejemplo, \(T_o\) podría ser un conjunto finito o \(\mathbb{N} \).
+			\item Una \textit{serie de tiempo continua} es aquella cuyo conjunto de valores para el tiempo \(T_o\) es un intervalo continuo, e.g. de la forma \(T_0=[a,b]\), \(a,b\in\mathbb{R}\).
+		\end{itemize}
+	\end{definition}
+	En el contexto de este proyecto se trabajará con une serie de tiempo discreta, teniendo la serie de los casos diarios de COVID-19 en México. Ahora bien, en este caso nuestro conjunto de observaciones proviene de un suceso el cuál es influenciado por un comportamiento aleatorio (en este contexto, no sabemos cuándo el virus SARS-CoV-2 podría mutar, volviéndose más contagioso y/o letal, así como los comportamientos de la población, las restricciones impuestas por un gobierno, etcétera). Para poder lograr nuestro objetivo de intentar predecir a partir de los datos observados, necesitamos darle más forma a nuestros datos.
+	\begin{definition}[Modelo de serie de tiempo]
+		Sea \(\{x_t\}\) una serie de tiempo. Un \textit{modelo} para nuestra serie es una especificación de las distribuciones conjuntas, o en algunos casos, sólo de las medias y covarianzas, de una sucesión de variables aleatorias \(\{X_t\}\), suponiendo que las observaciones en nuestra serie \(\{x_t\}\) son una realización de dichas variables. \\
+		Comúnmente, se le llama simplemente \textit{serie de tiempo} a las observaciones \(\{x_t\}\) junto con dicha realización.
+	\end{definition}
+	En la práctica se tiende a sólo especificar los primeros y segundos momentos de las distribuciones conjuntas \(\expected[X_t]\) y \(\expected[X_tX_{t+h}]\), \(t=1,\dots,n\), \(h=0,\dots,n\), esto debido a que intentar especificar la distribución conjunta de todas las variables aleatorias \(\{X_t\}\) -- o de sus probabilidades -- requerirá, en la mayoría de los casos, de muchos parámetros a estimar, lo cual no es práctico. \\
+	A continuación se introducirán dos modelos los cuales son comúnmente utilizados.
+	\begin{definition}[Modelo con tendencia]
+		Sea \(\{x_t\}\) una serie de tiempo que corresponde a una sucesión de variables aleatorias \(\{X_t\}\). Un \textit{modelo con tendencia} para \(\{x_t\}\) está definido por la fórmula
+		\[X_t=m_t+Y_t,\]
+		donde \(Y_t\) es una variable aleatoria con media cero y \(m_t\) es una función de \(t\) llamada \textit{tendencia}.
+	\end{definition}
+	La función de tendencia normalmente describirá un fenómeno que constantemente está en incremento o decremento. Usualmente esta tendencia será de la forma \(m_t=a_0+a_1t+a_2t^2\), dependiendo de como sean nuestros datos, y la podremos aproximar a nuestros datos utilizando la técnica de mínimos cuadrados.
+	\begin{definition}[Modelo con temporalidad]
+		Sea \(\{x_t\}\) una serie de tiempo que corresponde a una sucesión de variables aleatorias \(\{X_t\}\). Un \textit{modelo con temporalidad} para \(\{x_t\}\) está definido por la fórmula
+		\[X_t=s_t+Y_t,\]
+		donde \(Y_t\) es una variable aleatoria con media cero y \(s_t\) es una función de \(t\), con periodo \(d\), conocida como \textit{temporada}.
+	\end{definition}
+	La función de temporada usualmente describirá un fenómeno el cual varía de la misma forma cada cierto tiempo \(d\) -- por ejemplo, en las estaciones del año, o cada ciertos meses. En la práctica una función de temporada suele estar dada como
+	\[s_t=\sum_{i=1}^{k}\left[a_i\sin(\lambda_i t)+b_i\cos(\lambda_i t)\right],\quad\lambda_i=\frac{2\pi k_i}{d},\ k_i\in\mathbb{Z}.\]
+	Esto es debido a que las funciones trigonométricas, con su forma de onda, en la mayoría de los casos son una estimación apropiada para un conjunto de datos con temporalidad. En este caso buscamos aproximar los coeficientes \(a_i\) y \(b_i\) por medio de regresión harmónica. \\
+	En general, un modelo para una serie de tiempo estará descrito tanto por una función de tendencia como una de temporada, más una variable aleatoria de media cero. A continuación introducimos las funciones utilizadas para detectar si una serie tiene algunos de estos componentes.
+	\begin{definition}
+		Sea \(\{X_t\}\) una serie de tiempo (en este caso aleatoria) tal que \(\expected\left[X^2\right]<\infty\).
+		\begin{itemize}
+			\item La \textit{función de media} de \(\{X_t\}\), denotada \(\mu_X\), está dada por la esperanza \[\mu_X(t):=\expected[X_t].\]
+			\item La \textit{función de covarianza} de \(\{X_t\}\), denotada \(\gamma_X\), está dada por la covarianza \[\gamma_X(r,s):=\covariance(X_r,X_s).\] Cuando sólo se especifica un parámetro \(h\), la función de covarianza se define como \[\gamma_X(h):=\gamma_X(h,0)=\gamma_X(t+h,t)=\covariance(X_{t+h},X_t).\]
+		\end{itemize}
+	\end{definition}
+	\begin{definition}[Serie de tiempo estacionaria]
+		Sea \(\{X_t\}\) una serie de tiempo (en este caso aleatoria) tal que \(\expected\left[X^2\right]<\infty\). Decimos que \(\{X_t\}\) es \textit{estacionaria}\footnote{En un sentido estricto decimos que \(\{X_t\}\) es \textit{débilmente estacionaria}. Una serie de tiempo estacionaria usualmente requeriría conocer las distribuciones de toda \(X_t\). En la práctica esto usualmente no es posible.} si cumple las siguientes condiciones:
+		\begin{itemize}
+			\item \(\mu_X(t)\) no depende de \(t\),
+			\item \(\gamma_X(t+h,h)\) no depende de \(t\), para toda \(h\).
+		\end{itemize}
+	\end{definition}
+	\begin{definition}
+		Sea \(\{X_t\}\) una serie de tiempo (en este caso aleatoria) estacionaria.
+		\begin{itemize}
+			\item La \textit{función de autocovarianza} (abreviada FACV) de \(\{X_t\}\) con \textit{desfase} o \textit{retraso} \textit{h} se define como \(\gamma_X(h):=\covariance(X_{t+h},X_t)\).
+			\item La \textit{función de autocorrelación} (abreviada FAC) de \(\{X_t\}\) con \textit{desfase} o \textit{retraso} \textit{h} se define como \[\rho_X(h):=\frac{\gamma_X(h)}{\gamma_X(0)}=\correlation(X_{t+h},X_t).\]
+		\end{itemize}
+	\end{definition}
+	\begin{proposition} \label{proposPar}
+		Las funciones de autocovarianza \(\gamma_X(h)\) y de autocorrelación \(\rho_X(h)\) son pares.
+	\end{proposition}
+	\begin{proof}
+		En efecto,
+		\[\gamma_X(h)=\covariance(X_{t+h},X_t)=\covariance(X_t,X_{t+h})=\gamma_X(-h),\]
+		mostrando que \(\gamma_X(h)\) es par. Para \(\rho_X(h)\) se sigue inmediatamente de este hecho, por definición.
+	\end{proof}
+	En la práctica la mayoría de las veces no conocemos el modelo de nuestra serie, sino que tenemos un conjunto de datos \(\{x_t\}\). De manera similar a los métodos de estimación de parámetros, usamos funciones de la muestra independientes de cualquier distribución.
+	\begin{definition}
+		Sea \(\{x_t\}\) una serie de tiempo que corresponde a una sucesión de variables aleatorias \(\{X_t\}\).
+		\begin{itemize}
+			\item La \textit{función de media muestral} de \(\{x_t\}\) es simplemente la media muestral \[\overline{x}:=\frac{1}{n}\sum_{t=1}^{n}x_t.\]
+			\item La \textit{función de autocovarianza muestral} de \(\{x_t\}\) con \textit{desfase} o \textit{retraso} \textit{h} se define como \[\hat{\gamma}(h):=\frac{1}{n}\sum_{t=1}^{n-|h|}(x_{t+|h|}-\overline{x})(x_t- \overline{x}),\ -n<h<n.\]
+			\item La \textit{función de autocorrelación muestral} de \(\{x_t\}\) con \textit{desfase} o \textit{retraso} \textit{h} se define como \[\hat{\rho}(h):=\frac{\hat{\gamma}(h)}{\hat{\gamma}(0)},\ -n<h<n.\]
+		\end{itemize}
+		Observemos que la función de autocovarianza muestral \(\hat{\gamma}\) como está definida arriba no incluye la corrección de Bessel. Esto es para que la matriz de covarianzas muestrales sea positiva semidefinida. Más adelante veremos que esto es importante, para definir la función de autocorrelación parcial. Además, a diferencia de la ACF y la ACVF, estas funciones pueden ser aplicadas a una serie de tiempo que no es estacionaria. De hecho, graficarlas es muy útil para ver si se tiene una serie que es estacionaria o no. Por ejemplo, series con tendencia \(m_t\) resultarán en \(\hat{\rho}\) incrementando o decayendo en un periodo de tiempo, y series con temporada \(s_t\) tendrán un claro comportamiento periódico en \(\hat{\rho}\).
+	\end{definition}
+	\subsection{Autorregresión y media movible}
+	\noindent\justify Antes de introducir un modelo de autorregresión básico, necesitamos de las siguiente definiciones y resultados.
+	\begin{definition}[Ruido blanco]
+		Sean \(X_0,\dots,X_n\overset{iid}{\sim}f(x;\theta)\) tal que \(\expected[X_t]=0\), \(t=0,\dots,n\). A la sucesión \(\{X_t\}\) se le llama \textit{ruido iid}. Si, más aún, \(\correlation(X_t,X_{t+h})=0\), \(t=0,\dots,n, \) \(h=1,\dots,n\), decimos que \(\{X_t\}\) es \textit{ruido blanco}.
+	\end{definition}
+	\begin{definition}[Serie de tiempo Gaussiana]
+		Sea \(\{X_t\}\) una serie de tiempo. Si, para cualesquiera \(i_1,\dots,i_n\), el vector \((X_{i_1},\dots,X_{i_n})^T\sim N(\boldsymbol{\mu},\boldsymbol{\Sigma})\) (es decir, todo vector aleatorio conformado por algunas \(X_i\in\{X_t\}\) es normal multivariado), entonces a \(\{X_t\}\) se le llama una \textit{serie de tiempo Gaussiana}.
+	\end{definition}
+	Recordemos que en general podemos describir a una serie de tiempo como \[X_t=m_t+s_t+Y_t,\] donde \(Y_t\) tiene media cero. Entonces, si toda \(Y_t\) es idénticamente ruido iid, podemos ver que \(\{X_t\}\) será Gaussiana. Esto será importante al momento de intentar encontrar los coeficientes de nuestros modelos.
+	\subsubsection{Introducción a los modelos de autorregresión}
+	\noindent\justify Recordemos que la forma de un modelo de regresión lineal estaba dado por \[y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\varepsilon_i,\ i=1,\dots,n,\] con \(\varepsilon_i\overset{iid}{\sim}N(0,\sigma^2) \). ¿Qué tal si, en vez de considerar un conjunto de variables independientes \(y_i\), corriéramos este modelo sobre nuestros mismos valores dependientes \(x_i\)? Esto nos permitiría considerar, incluso, valores de \(i\) que yacen más allá de los \(n\) datos que nosotros tenemos, pudiendo así \textit{predecir} valores que no sabemos, ya sea porque no han ocurrido aún, o debido a que no conocemos esa información (e.g. está muy en el pasado). Ahí radica la utilidad de considerar esto. Para ello, hay que formalizar este pensamiento.
+	\begin{definition}[Modelo autorregresivo]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Se le conoce como \textit{modelo autorregresivo} o \textit{modelo AR} de orden \(p\), y se denota \(\AR(p)\), a la relación dada por el sistema de ecuaciones
+		\[X_t=c+\sum_{i=1}^{p}\varphi_iX_{t-i}+\varepsilon_t,\]
+		donde \(\varepsilon_t\) es ruido blanco y \(c\) una constante. A los \(\varphi_i\) se les llama \textit{parámetros} del modelo. 
+	\end{definition}
+	De manera análoga a un modelo lineal, podemos expresar a nuestro sistema en forma matricial al considerar la esperanza. Por conveniencia tomemos a \(c=0\). Si tenemos \(N\) valores conocidos en nuestra serie \(\{X_t\}\):
+	\begin{align*}
+		X_t&=c+\sum_{i=1}^{p}\varphi_iX_{t-i}+\varepsilon_t, \\
+		\begin{pmatrix}X_p\\X_{p+1}\\\vdots\\X_N\end{pmatrix}&=\begin{pmatrix}X_0&X_1&\cdots&X_{p-1}\\X_1&X_2&\cdots&X_p\\\vdots&\vdots&\ddots&\vdots\\X_{N-p}&X_{N-p+1}&\cdots&X_{N-1}\end{pmatrix}\begin{pmatrix}\varphi_p\\\varphi_{p-1}\\\vdots\\\varphi_1\end{pmatrix} \\
+		Y&=X\varphi \\
+		X^TY&=(X^TX)\varphi \\
+		\varphi&=(X^TX)^{-1}X^TY,
+	\end{align*}
+	siempre que la pseudoinversa exista. \par
+	Sin embargo, existe un método distinto para calcular los coeficientes de nuestro modelo la cuál no tenemos en uno lineal. Una vez más consideremos \(c=0\) por simplicidad. Si más aún suponemos que nuestra serie es estacionaria, realizando una variedad de operaciones, podemos transformar nuestro sistema de ecuaciones a lo siguiente.
+	\begin{align*}
+		X_t&=c+\sum_{i=1}^{p}\varphi_iX_{t-i}+\varepsilon_t \\
+		&=\varphi_1X_{t-1}+\varphi_2X_{t-2}+\cdots+\varphi_pX_{t-p}+\varepsilon_t \\
+		X_tX_{t-h}&=\varphi_1X_{t-1}X_{t-h}+\varphi_2X_{t-2}X_{t-h}+\cdots+\varphi_pX_{t-p}X_{t-h}+\varepsilon_tX_{t-h} \\
+		\expected[X_tX_{t-h}]&=\expected[\varphi_1X_{t-1}X_{t-h}+\varphi_2X_{t-2}X_{t-h}+\cdots+\varphi_pX_{t-p}X_{t-h}+\varepsilon_tX_{t-h}] \\
+		&=\varphi_1\expected[X_{t-1}X_{t-h}]+\varphi_2\expected[X_{t-2}X_{t-h}]+\cdots+\varphi_p\expected[X_{t-p}X_{t-h}]+\expected[\varepsilon_tX_{t-h}] \\
+		\gamma_X(h)&=\varphi_1\gamma_X(h-1)+\varphi_2\gamma_X(h-2)+\cdots+\varphi_p\gamma_X(h-p) \\
+		\rho_X(h)&=\varphi_1\rho_X(h-1)+\varphi_2\rho_X(h-2)+\cdots+\varphi_p\rho_X(h-p).
+	\end{align*}
+	La suposición de estacionariedad es necesaria para pasar de las esperanzas a las autocovarianzas. Dividiendo entre \(\gamma_X(0)\) se obtiene la última ecuación. Usando el hecho que \(\rho_X\) es par (proposición \ref{proposPar}) y \(\rho_X(0)=1\), para \(h=1,\dots,p\), obtenemos el siguiente sistema de ecuaciones.
+	\begin{definition}[Ecuaciones de Yule-Walker]
+		Sea \[X_t=\sum_{i=1}^{p}\varphi_iX_{t-i}+\varepsilon_t\] un modelo \(\AR(p)\). A las ecuaciones
+		\begin{align*}
+			\rho_X(1)&=\varphi_1+\varphi_2\rho_X(1)+\cdots+\varphi_p\rho_X(p-1) \\
+			\rho_X(2)&=\varphi_1\rho_X(1)+\varphi_2+\cdots+\varphi_p\rho_X(p-2) \\
+			&\vdots \\
+			\rho_X(p)&=\varphi_1\rho_X(p-1)+\varphi_2\rho_X(p-2)+\cdots+\varphi_p
+		\end{align*}
+		se les llaman \textit{ecuaciones de Yule-Walker}.
+	\end{definition}
+	Si reemplazamos los valores teóricos de \(\rho_X\) con sus estimaciones muestrales \(\hat{\rho}_X\), podremos encontrar los coeficientes \(\varphi_i\) como la solución del sistema \[\begin{pmatrix}1&\hat{\rho}(1)&\cdots& \hat{\rho}(p-1)\\\hat{\rho}(1)&1&\cdots&\hat{\rho}(p-2)\\\vdots&\vdots&\ddots&\vdots\\\hat{\rho}(p-1)&\hat{\rho}(p-2)&\cdots&1\end{pmatrix}\begin{pmatrix}\varphi_1\\\varphi_2\\\vdots\\\varphi_p\end{pmatrix}=\begin{pmatrix}\hat{\rho}(1)\\\hat{\rho}(2)\\\vdots\\\hat{\rho}(p)\end{pmatrix}.\]\indent Recordemos que definimos a \(\hat{\gamma}\) sin corrección de Bessel para asegurar que la matriz de autocovarianzas sea positiva semidefinida. De hecho, la matriz de autocorrelaciones muestrales \(\hat{R}_p\) también es positiva semidefinida. Aunque no es una condición tan fuerte como ser positiva definida -- lo que garantiza invertibilidad y, por lo tanto, solución a las ecuaciones de Yule-Walker -- en la mayoría de los casos sí tendremos una solución.
+	\subsubsection{Introducción a los modelos de media movible}
+	\noindent\justify En la sección anterior consideramos un modelo para nuestros datos utilizando los mismos para formar predicciones sobre datos futuros. Sin embargo, con cada predicción adelantada el error crece. En contraste, un modelo de media movible no considera hacer regresión sobre sí mismo, como veremos a continuación. En sí, un modelo de media movible es una generalización de otro concepto.
+	\begin{definition}[Modelo lineal general]
+		Sea \(\{X_t\}\) una serie de tiempo o una realización de esta. Se le conoce como \textit{modelo lineal general} a la relación dada por el sistema de ecuaciones
+		\[X_t=\mu_X+\varepsilon_t+\sum_{i=1}^{\infty}\beta_i\varepsilon_{t-i},\]
+		donde \(\varepsilon_t\) es ruido blanco y \(\mu_X\) la función de media de la serie. A los \(\beta_i\) se les llama \textit{parámetros} del modelo.
+	\end{definition}
+	Observemos que el modelo anterior es una serie, y no una combinación lineal de coeficientes y variables. De ahí viene el nombre \textit{general}. Otra característica que diferencia a este modelo de los otros es que, en vez de considerar alguna variable dependiente conocida o a los términos del pasado de la serie, aquí se considera a un \textit{error} totalmente aleatorio pasado. Entonces, lo que considera el modelo lineal general es cómo cambia una variable futura basándonos sólo en cómo se tiene el error en el pasado. Una última cosa que considerar es que, al ser infinita, debemos tener cuidado en que la serie converja. De otro modo, no habría un modelo ni nada pues todo tendería al infinito conforme aumenta el tiempo. \\
+	Vamos a considerar un modelo lineal general pero tal que los \(\beta_i\), a partir de cierto \(i\), son idénticamente cero.
+	\begin{definition}[Modelo de media movible]
+		Sea \(\{X_t\}\) una serie de tiempo o una realización de esta. Se le conoce como \textit{modelo de media movible} o \textit{modelo MA} de orden \(q\), y se denota \(\MA(q)\), a la relación dada por el sistema de ecuaciones
+		\[X_t=\mu_X+\varepsilon_t+\sum_{i=1}^{q}\theta_i\varepsilon_{t-i},\]
+		donde \(\varepsilon_t\) es ruido blanco y \(\mu_X\) la función de media de la serie. A los \(\theta_i\) se les llama \textit{parámetros} del modelo.
+	\end{definition}
+	De ahí el nombre media movible. Visualizamos a los valores futuros en una serie de tiempo de la forma que tengan una tendencia (la función de media), y cuya variable aleatoria de media cero es el ruido blanco no observable. Nuestro trabajo entonces es obtener los coeficientes \(\theta_i\). Desafortunadamente, como los \(\varepsilon_i\) no son observables (al ser ruido aleatorio iid), no podemos expresar a nuestro sistema matricialmente tal que lo podamos resolver con mínimos cuadrados, ni existe un método equivalente a las ecuaciones de Yule-Walker. Tendríamos que usar algún método iterativo que se ajuste a nuestras necesidades. También existen varios algoritmos con los cuales estimar los coeficientes, cuya idea principal es \textit{invertir} un modelo \(\MA(q)\) a uno \(\AR(\infty)\), tal que ya podamos aplicar algún método más sencillo para encontrar a los \(\theta_i\). Un algoritmo será descrito más adelante.
+	\subsubsection{Modelo ARMA y ARIMA}
+	\noindent\justify Ya conocemos los modelos de autorregresión y de media movible. Vamos a considerar un nuevo modelo que nos permita tener las ventajas de ambos.
+	\begin{definition}[Modelo ARMA]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Se le conoce como \textit{modelo autorregresivo de media movible} o \textit{modelo ARMA} de orden \((p,q)\), y se denota \(\ARMA(p,q)\), a la relación dada por el sistema de ecuaciones
+		\[X_t=c+\varepsilon_t+\sum_{i=1}^{p}\varphi_iX_{t-i}+\sum_{i=1}^{q}\theta_i\varepsilon_{t-i},\]
+		donde cada \(\varepsilon\) es ruido blanco y \(c\) una constante. A los \(\varphi_i\) y \(\theta_i\) se les llama \textit{parámetros} del modelo.
+	\end{definition}
+	Un modelo ARMA pone en consideración la regresión sobre sí mismo, para ayudarnos a un pronóstico que no sólo tienda hacia la media; y a la regresión sobre los errores, que permiten precisar mejor nuestras predicción al contar con un factor no tan predecible. Claramente si \(p=0\) ó \(q=0\) entonces el modelo decae a un \(\AR(p)\) o a un \(\MA(q)\), respectivamente. Si \(p=q=0\), estamos asumiendo que nuestra serie puede ser explicada por una tendencia constante y ruido blanco de media 0, lo cual rara vez -- si no es que nunca -- va a suceder en la práctica. \par
+	Como se tiene un modelo de media movible, una vez más los coeficientes se tendrán que estimar por medios distintos a menos cuadrados o ecuaciones de Yule-Walker. \par
+	Un último método y algo más general involucra al concepto de diferenciar la serie, lo cuál consiste en sustraer valores pasados a la serie original. Con base a este concepto se cambia un poco el modelo ARMA, no en definición, sino en aplicación. Esto está formalizado en la siguiente definición.
+	\begin{definition}[Modelo ARIMA]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Se le conoce como \textit{modelo autorregresivo de media movible} o \textit{modelo ARIMA} de orden \((p,d,q)\), y se denota \(\ARIMA(p,d,q)\), a la relación dada por el sistema de ecuaciones
+		\[X_t=c+\varepsilon_t+\sum_{i=1}^{p}\varphi_iX_{t-i}+\sum_{i=1}^{q}\theta_i\varepsilon_{t-i},\]
+		tal que \(\{X_t\}\) halla sido diferenciada \(d\) veces. Cada \(\varepsilon\) es ruido blanco y \(c\) una constante. A los \(\varphi_i\) y \(\theta_i\) se les llama \textit{parámetros} del modelo. 
+	\end{definition} \par
+	En el siguiente capítulo se justificará por qué diferenciar nuestra serie ayuda. Veamos, como nota final, que el modelo ARIMA no agrega ni quita coeficientes, así que una vez más tenemos que estimar los coeficientes con un método iterativo. Lo que sí cambia es la misma serie a la que se aplica el modelo, porque se está diferenciando. Una vez ajustado el modelo a la serie diferenciada, podemos aplicar el proceso inverso a esta para ajustar el modelo a la serie original.
+	\subsection{Estimación de coeficientes en un modelo ARIMA}
+	\noindent Afortunadamente, sólo necesitamos verificar cómo estimar los coeficientes de un modelo \(\ARMA\), debido a que el modelo \(\ARIMA\) utiliza los mismos coeficientes, con lo único que cambia siendo la serie, que es diferenciada un número de veces. En este caso, basta aplicar la operación inversa a estas diferenciaciones y el modelo ajustado servirá. Recordemos que en los modelos de media movible no podíamos aplicar las técnicas de mínimos cuadrados para estimar los coeficientes, debido a que se trabaja con un error aleatorio en vez de una variable cuya esperanza podríamos conocer. Si nuestro propósito al ajustar el modelo a una serie de tiempo estacionaria \(\{X_t\}\), tal que su media \(\mu\) y FACV \(\gamma\) sean conocidas, y donde \(t=1,\dots,n\), entonces buscamos la mejor combinación lineal de \(\{1,X_n,X_{n-1},\dots,X_1\}\), que prediga el valor \(X_{n+h}\), \(h>0\) con el menor error cuadrado medio. Es decir, definimos al \textit{mejor predictor lineal}
+	\[P_nX_{n+h}:=a_0+a_1X_n\cdots+a_nX_1.\]
+	\par El algoritmo de innovaciones requiere más aún que \(\{X_t\}\) tenga media cero, que \(\expected[|X_t|^2]<\infty\) -- ambas condiciones las cumple una serie estacionaria on algunas modificaciones menores -- y que \(\expected[X_iX_j]=\covariance(X_i,X_j)\). Supongamos que \(\{X_t\}\) cumple las tres condiciones. Definamos a
+	\[\hat{X_n}:=\begin{cases}0,&\mbox{si }n=1,\\P_{n-1}X_n,&\mbox{si }n=2,3,\dots\end{cases}\]
+	como el \textit{mejor predictor lineal} a un paso, y denotemos su ECM como \(v_n=\expected\left[(X_{n+1}-P_nX_{n+1})^2\right]\). Ahora, introducimos las \textit{innovaciones}, o errores de predicción a un paso, denotados \(U_n\) y definidos \(U_n:=X_n-\hat{X_n}\). Dados los \(n\) valores conocidos de nuestra serie, y recordando la definición del mejor predictor lineal, podemos expresar a las \(n\) innovaciones como un sistema de ecuaciones, pues
+	\begin{align*}
+		U_1&=X_1-\hat{X_1} \\
+		&=1\cdot X_1, \\
+		U_n&=X_n-\hat{X_n} \\
+		&=X_n-P_{n-1}X_n \\
+		&=-a_{n-1}X_1-\cdots-a_1X_{n-1}+X_n; \\
+		\boldsymbol{U}_n&=A_n\boldsymbol{X}_n \\
+		\begin{pmatrix}U_1\\U_2\\\vdots\\U_n\end{pmatrix}&=\begin{pmatrix}1&0&0&\cdots&0\\-a_1&1&0&\cdots&0\\-a_2&-a_1&1&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots\\-a_{n-1}&-a_{n-2}&-a_{n-3}&\cdots&1\end{pmatrix}\begin{pmatrix}X_1\\X_2\\\vdots\\X_n\end{pmatrix}.
+	\end{align*}
+	\par Claramente \(\det A_n=1\), así que esta es invertible, digamos
+	\[A^{-1}_n=\begin{pmatrix}1&0&0&\cdots&0\\\theta_{11}&1&0&\cdots&0\\\theta_{22}&\theta_{21}&1&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots\\\theta_{n-1,n-1}&\theta_{n-1,n-2}&\theta_{n-1,n-3}&\cdots&1\end{pmatrix}.\]
+	Recordando la definición de las innovaciones, expresamos a los predictores a un paso de forma vectorial como
+	\begin{align*}
+		\hat{\boldsymbol{X}_n}&=\boldsymbol{X}_n-\boldsymbol{U}_n \\
+		&=\left(A^{-1}_n-I_n\right)\boldsymbol{U}_n \\
+		&=\Theta_n\boldsymbol{U}_n \\
+		&=\Theta_n(\boldsymbol{X}_n-\hat{\boldsymbol{X}_n}),
+	\end{align*}
+	donde
+	\[\Theta_n=\begin{pmatrix}0&0&0&\cdots&0\\\theta_{11}&0&0&\cdots&0\\\theta_{22}&\theta_{21}&0&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots\\\theta_{n-1,n-1}&\theta_{n-1,n-2}&\theta_{n-1,n-3}&\cdots&0\end{pmatrix}.\]
+	Así, en notación de sumatoria, reescribimos a \(\hat{X_{n+1}}\) como
+	\[\hat{X_{n+1}}:=\begin{cases}0,&\mbox{si }n=0,\\\sum_{i=1}^{n}\theta_{ni}\left(X_{n+1-i}-\hat{X_{n+1-i}}\right),&\mbox{si }n=1,2,\dots\end{cases}\]
+	Con ello, finalmente, introducimos el algoritmo para encontrar a los \(\theta_{ij}\).
+	\begin{theorem}[Algoritmo de innovaciones] \label{teoremaInn}
+		Sea \(\{X_t\}\) una serie de tiempo con media cero, tal que \(\covariance(X_i,X_j)=\expected[X_iX_j]\), y si \([\covariance(X_i,X_j)]_{i,j=1}^n\) es no singular, entonces los predictores \(\hat{X_{n+1}}\), \(n\geq0\), estarán dados por
+		\[\hat{X_{n+1}}:=\begin{cases}0,&\mbox{si }n=0,\\\sum_{i=1}^{n}\theta_{ni}\left(X_{n+1-i}-\hat{X_{n+1-i}}\right),&\mbox{si }n=1,2,\dots,\end{cases}\]
+		y los errores cuadrados medios \(v_i\) y coeficientes \(\theta_{ij}\) se calculan como
+		\begin{align*}
+			v_0&=\covariance(X_1,X_1), \\
+			\theta_{n,n-j}&=v^{-1}_j\left[\covariance(X_{n+1},X_{j+1})-\sum_{i=0}^{j-1}\theta_{j,j-i}\theta_{n,n-i}v_j\right],\ j=0,1,\dots,n-1, \\
+			v_n&=\covariance(X_{n+1},X_{n+1})-\sum_{i=0}^{n-1}\theta^2_{n,n-i}v_j.
+		\end{align*}
+	\end{theorem}
+	Como \(v_0\) tiene una derivación más fácil, podemos calcular \(\theta_{11}\) a partir de \(v_0\), y con éste calcular \(v_1\), y así sucesivamente. La demostración usa álgebra lineal y análisis funcional. Previo a ver la demostración, se introducirán algunas definiciones y resultados relacionados a esos temas, sin demostración.\footnote{Obtenidas de \cite{brockwell2009time}, pp. 50--52.}
+	\begin{definition}[Conjunto generado cerrado]
+		Si \(X=\{x_i:i\in I\}\)\footnote{\(I\) es un conjunto de índices posiblemente no numerable.} es un subconjunto de un espacio de Hilbert \(H\), el \textit{conjunto generado cerrado} \(\overline{\operatorname{gen}}(X)\) se define como el subespacio más pequeño de \(H\) que contiene a todo \(x_i\), \(i\in I\).
+	\end{definition}
+	\begin{proposition} \label{propoCerrado}
+		Sea \(X\subset H\) donde \(H\) es un espacio de Hilbert.
+		\begin{enumerate}
+			\item \(\overline{\operatorname{gen}}(X)=\overline{\operatorname{gen}(X)}\),
+			\item Si \(X=\{x_1,\dots,x_n\}\) (i.e. \(X\) es finito), entonces \(\overline{\operatorname{gen}}\{x_1,\dots,x_n\}\) es el conjunto de combinaciones lineales de los elementos de \(X\).
+		\end{enumerate}
+	\end{proposition}
+	\begin{theorem}[Proyección] \label{teoremaProy}
+		Si \(M\) es un subespacio cerrado de un espacio de Hilbert \(H\), y dado \(x\in H\), entonces
+		\begin{enumerate}
+			\item Existe un único \(\hat{x}\in M\) tal que \[\norm{x-\hat{x}}=\underset{y\in M}{\inf}\norm{x-y},\]
+			\item \(\hat{x}\in M\) y \(\norm{x-\hat{x}}=\underset{y\in M}{\inf}\norm{x-y}\) sí y sólo si \(\hat{x}\in M\) y \(\left(x-\hat{x}\right)\in M^{\perp}\), donde \(M^{\perp}\) es el complemento ortogonal de \(M\) (\(x \in M^{\perp}\) sí y sólo si \(\norm{x,y}=0\) para toda \(y\in M\)).
+		\end{enumerate}
+	\end{theorem}
+	\begin{corollary}[Mapa de proyección] \label{coroProy}
+		Si \(M\) es un subespacio cerrado de un espacio de Hilbert \(H\) e \(I\) representa el mapa identidad en \(H\), existe y es único el mapa de proyección \(P_M:H\to M\) tal que \((I-P_M)(H)=M^{\perp}\). A \(P_M\) se le llama el mapa de proyección de \(H\) en \(M\).
+	\end{corollary}
+	\begin{lemma} \label{lemaProy}
+		El mejor predictor de \(X\), \(\hat{X_n}\), es un mapa de proyección.
+	\end{lemma}
+	\begin{proof}[Demostración del algoritmo de innovaciones \ref{teoremaInn} (Brockwell y Davis, 2009){\rm\cite{brockwell2009time}}]
+		Sea \(\mathcal{X}_n=\overline{\operatorname{gen}}\{X_1,\dots,X_n\}\). Definamos al producto interior de dos variables aleatorias \(X,Y\) como la esperanza de su producto (ver la demostración de la cota de Cramér-Rao \ref{teoremaCota}) \(\dotproduct{X_i}{X_j}:=\covariance(X_i,X_j)=\expected[X_iX_j]\). El conjunto \(\{X_1-\hat{X_1},\dots,X_n-\hat{X_n}\}\) es ortogonal pues, para \(i<j\), \(X_i-\hat{X_i}\in\mathcal{X}_{j-1}\), y por otro lado \((X_j-\hat{X_j})\perp\mathcal{X}_{j-1}\) por definición de \(\hat{X_j}\). Entonces
+		\[\dotproduct{\hat{X_{n+1}}}{X_{j+1}-\hat{X_{j+1}}}=\dotproduct{\hat{X_{n+1}}}{X_{j+1}}-\dotproduct{\hat{X_{n+1}}}{\hat{X_{j+1}}}=\theta_{n,n-j}v_j.\]
+		Por lo ya establecido, \((X_{n+1}-\hat{X_{n+1}})\perp(X_{j+1}-\hat{X_{j+1}})\), y así
+		\[\theta_{n,n-j}=v^{-1}_j\dotproduct{\hat{X_{n+1}}}{X_{j+1}-\hat{X_{j+1}}}.\]
+		Tomando a \(j\) en el mejor predictor a un paso, se sigue que
+		\begin{align*}
+			\theta_{n,n-j}&=v^{-1}j\left[\covariance(X_{n+1},X_{j+1})-\sum_{i=0}^{j-1}\theta_{j,j-i}\dotproduct{\hat{X_{n+1}}}{X_{i+1}-\hat{X_{i+1}}}\right] \\
+			&=v^{-1}j\left[\covariance(X_{n+1},X_{j+1})-\sum_{i=0}^{j-1}\theta_{j,j-i}\theta_{n,n-i}v_i\right],
+		\end{align*}
+		como queríamos para \(\theta_{n,n-j}\). Finalmente, por la ortogonalidad, utilizando el teorema de proyección \ref{teoremaProy} y el lema \ref{lemaProy}, concluimos que
+		\begin{align*}
+			v_n&=\norm{X_{n+1}-\hat{X_{n+1}}}^2 \\
+			&=\norm{X_{n+1}}^2-\norm{\hat{X_{n+1}}}^2 \\
+			&=\covariance(X_{n+1},X_{n+1})-\sum_{i=0}^{n-1}\theta^2_{n,n-i}v_j.
+		\end{align*}
+		Así, obtenemos todos las formas que requería el algoritmo.
+	\end{proof}
+	El cálculo manual de los coeficientes es claramente muy tedioso, por lo que existen implementaciones numéricas que fueron utilizadas aquí para ajustar el modelo.
+	\subsection{Pruebas de hipótesis para verificar estacionariedad}
+	\noindent En las secciones anteriores definimos cuándo una serie de tiempo es estacionaria. La importancia de este tipo de series radica en que la mayoría de las pruebas o procedimientos que se aplican para la predicción de datos (incluidos los utilizados aquí) requieren que una serie sea, por lo menos, débilmente estacionaria. Aquí se introducirán dos pruebas de hipótesis con las cuales podemos verificar si una serie de tiempo es estacionaria y, en caso de no ser así, un método con el cual podremos convertir una serie de tiempo que no es estacionaria a una que sí lo es. \par
+	Primero necesitamos introducir algunos conceptos nuevos.
+	\begin{definition}[Polinomio característico]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Dado un modelo \(\AR(p)\) ajustado a nuestra serie \[X_t=c+\sum_{i=1}^{p}\varphi_iX_{t-i}+\varepsilon_t,\] el \textit{polinomio característico} del modelo se define como \[p(m):=m^p-\varphi_1m^{p-1}-\varphi_2m^{p-2}-\cdots-\varphi_p.\]
+	\end{definition}
+	Vamos a investigar el polinomio característico y sus raíces. De particular interés son aquellas que yacen dentro de y en la frontera del círculo unitario \(|m|\leq1\), debido a que su presencia causa que los modelos se ``atoren'' después de cierto periodo, causando problemas con las predicciones y un mal ajuste del modelo. Es decir, el modelo no es \textit{estacionario}.
+	\begin{definition}[Raíz unitaria]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Consideremos el polinomio característico de un modelo \(\AR(p)\) ajustado a nuestra serie \[p(m):=m^p-\varphi_1m^{p-1}-\varphi_2m^{p-2}-\cdots- \varphi_p.\] Decimos que el modelo tiene \textit{raíz unitaria} si \(m=1\) es una raíz de \(p\).
+	\end{definition}
+	Con esto en mente, existen varias pruebas de hipótesis que nos permiten comprobar si existe o no raíz unitaria en nuestro modelo. Estos consideran la realización de una serie de tiempo y no el modelo al que ajustamos, lo que nos permite aplicarlas antes de ajustar un modelo. Dos de las más populares son las siguientes.
+	\begin{definition}[Prueba ADF] \label{defADF}
+		Sea \(\{x_t\}\) una serie de tiempo. La \textit{prueba de Dickey-Fuller aumentada}, comúnmente abreviada \textit{prueba ADF}, es una prueba de hipótesis para verificar si \(\{x_t\}\) es estacionaria. Se prueban las siguiente hipótesis:
+		\begin{itemize}
+			\item \textit{Hipótesis nula} \(H_0\): el polinomio característico de la serie de tiempo \(\{x_t\}\) tiene raíz unitaria.
+			\item \textit{Hipótesis alternativa} \(H_1\): la serie de tiempo \(\{x_t\}\) es estacionaria.
+		\end{itemize}
+		Si \(\{x_t\}\) es una realización de una sucesión de variables aleatorias \(\{X_t\}\), la prueba ADF supone que podemos expresar a cada \(X_t\) como \[(X_t-X_{t-1})=\alpha+\beta t+(\varphi-1)X_{t-1}+\varepsilon_t,\] con \(\alpha+\beta t\) la tendencia y \(\varepsilon_t\) ruido blanco. La hipótesis nula entonces es equivalente a que \(\varphi=1\).
+	\end{definition}
+	Originalmente Dickey y Fuller introdujeron esta prueba en 1979\autocite{dickeyfuller}. Podemos ver la intuición tras esta prueba de la siguiente manera: si \(\{x_t\}\) is estacionaria (o estacionaria con tendencia), entonces ésta tiende a volver a una media constante (o determinada por la tendencia). Por lo tanto, los valores grandes tienden a ser seguidos por valores pequeños, y viceversa. Así, esto será un predictivo significativo de cómo cambiará la serie en un próximo periodo, y tendrá un coeficiente negativo. Por otro lado, si la serie está diferenciada, los cambios positivos o negativos suceden con una probabilidad que no depende de la serie, si no del ruido blanco. \par
+	La segunda prueba tiene las hipótesis opuestas.
+	\begin{definition}[Prueba KPSS] \label{defKPSS}
+		Sea \(\{x_t\}\) una serie de tiempo. La \textit{prueba Kwiatowski-Phillips-Schmidt-Shin}, comúnmente abreviada {\rm prueba KPSS}, es una prueba de hipótesis para verificar si \(\{x_t\}\) es estacionaria. Se prueban las siguiente hipótesis:
+		\begin{itemize}
+			\item \textit{Hipótesis nula} \(H_0\): la serie de tiempo \(\{x_t\}\) es estacionaria.
+			\item \textit{Hipótesis alternativa} \(H_1\): el polinomio característico de la serie de tiempo \(\{x_t\}\) tiene raíz unitaria.
+		\end{itemize}
+		La prueba KPSS se basa en las pruebas de score, también llamadas del multiplicador de Lagrange. Si \(\{x_t\}\) es una realización de una sucesión de variables aleatorias \(\{X_t\}\), la prueba KPSS supone que podemos expresar a cada \(X_t\) como \[X_t=m_t+S_t+\varepsilon_t,\] con \(m_t\) la tendencia, \(S_t\) un \textit{camino aleatorio} y \(\varepsilon_t\) un error (usualmente ruido blanco). Entonces la prueba de hipótesis es una prueba de score donde la hipótesis nula es equivalente a que \(\variance[S_t]=0\).
+	\end{definition}
+	La prueba KPSS fue introducida en 1991\autocite{kwiatkowski1991testing} por los autores que ahora le dan su nombre. Estas pruebas no son mutualmente exclusivas simplemente por tener las hipótesis en orden opuesto; es decir, puede que el valor \(p\) obtenido en ambas pruebas no nos de evidencia para rechazar ninguna de las hipótesis. Más aún, es buena práctica utilizar ambas, por esta misma razón. Existen muchas pruebas más, con distintos estadísticos. Sin embargo estas dos son adecuadas al tener hipótesis opuestas y aplicaciones en los modelos ARIMA. \par
+	Para finalizar esta sección vamos a formar el concepto de diferenciar una serie y por qué lo aplicamos. Ya lo mencionamos brevemente al introducir el modelo ARIMA, pero sin embargo, sólo dimos un breve descriptivo de lo que era y no entramos en detalles de su funcionamiento.
+	\begin{definition}[Diferencia]
+		Sea \(\{X_t\}\) una serie de tiempo. El operador de \textit{diferencia} se denota como \(\nabla\) y se define como \(\nabla X_t:=X_t-X_{t-1}\).
+	\end{definition}
+	\begin{definition}[Diferenciación de una serie de tiempo]
+		Si \(\{X_t\}\) es una serie de tiempo, una \textit{diferenciación} de dicha serie consiste en una aplicación del operador de diferencia para formar una nueva serie \(\{\nabla X_t\}:=\{X_t-X_{t-1}\}\). Recursivamente, múltiples diferenciaciones de la misma serie de tiempo implican diferenciar la diferencia anterior, es decir, \(\nabla^dX_t:=\nabla(\nabla^{d-1}X_t)\).
+	\end{definition}
+	Con diferenciar una serie de tiempo lo que queremos es darle la propiedad de \textit{estacionariedad}. Estamos aplicando una transformación a una serie no estacionaria con el propósito de hacerla \textit{estacionaria en el sentido de su media} (es decir, quitar alguna tendencia no constante), sin modificar el hecho de que su varianza o autocovarianza no son estacionarias. \par
+	Finalmente, podemos redefinir al modelo ARIMA al haber formalizado el concepto de diferenciación.
+	\begin{definition}[Operador de retraso]
+		Sea \(\{X_t\}\) una serie de tiempo. El operador de \textit{retraso} se denota como \(L\) y se define como \(LX_t:=X_{t-1}\).
+	\end{definition}
+	Veamos que, debido a que \(\nabla X_t=X_t-X_{t-1}\), podemos reescribir esto mediante un abuso de notación como \(\nabla X_t=X_t-LX_t=(1-L)X_t\). En general, podemos expresar a la \(d\)-ésima diferencia en términos del operador de retraso como \(\nabla^dX_t:=(1-L)^dX_t\).
+	\begin{definition}[Modelo ARIMA]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta. Se le conoce como \textit{modelo autorregresivo de media movible} o \textit{modelo ARIMA} de orden \((p,d,q)\), y se denota \(\ARIMA(p,d,q)\), si la serie \((1-L)^dX_t=\nabla^dX_t\) está descrita por un modelo \(\ARMA(p,q)\).
+	\end{definition}
+	Si vamos todavía un paso adelante en nuestro abuso de notación y vemos a \((1-L)^d\) como un polinomio de grado \(d\), podemos ver por qué hace sentido diferenciar a la serie \(d\) veces: porque tenemos una raíz unitaria de multiplicidad \(d\). Al diferenciar, la estamos ``factorizando'' por así decirlo\footnote{Bueno, siendo muy estrictos, no tiene sentido que un operador lineal sea una raíz, ¿verdad? Pero es una forma intuitiva de visualizar la raíz unitaria. Por eso lo incluyo.} del modelo para obtener una serie que sí es estacionaria y que por ende le podamos aplicar un modelo ARMA. \par
+	Un último comentario antes de pasar a cómo elegir el modelo óptimo. Si, al diferenciar una vez nuestra serie de tiempo, aplicamos nuestras pruebas de hipótesis ADF y KPSS y concluimos que podemos rechazar y no rechazar, respectivamente, la hipótesis nula (que implica no necesitamos diferenciar más), no es \textit{necesario} seguir diferenciando, \textit{pero} en ocasiones esto nos ayudará a ajustar un modelo aún mejor. Recordemos, no estamos aceptando que la serie sea estrictamente estacionaria, ni existe un \(100\%\) de confianza a menos que hagamos infinitas operaciones. Las pruebas de hipótesis nos dan un indicador de la estacionariedad de nuestra serie, pero no son una panacea que mágicamente nos ayuda a usar un modelo ARMA o a lo máximo un modelo ARIMA con \(d=1\).
+	\subsection{Eligiendo un modelo ARIMA}
+	\noindent\justify En esta última sección consideraremos cuál modelo \(\ARIMA(p,d,q)\) es adecuado para cierta serie. Claro, como cada serie es distinta en su composición, no existe un polvo mágico que nos diga que valores de \(p\), \(d\) o \(q\) usar, pero podemos ayudarnos de ciertos criterios. El primero que introducimos es una extención de la función ACF que definimos casi al principio. Recordemos que la ACVF está denotada por \(\gamma_X \) y su versión muestral está dada por \(\hat{\gamma}\).
+	\begin{definition}[Función de autocorrelación parcial]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta descrita por un modelo \(\ARMA(p,q)\). La \textit{función de autocorrelación parcial} de \(\{X_t\}\), denotada \(\alpha(h)\), se define como
+		\begin{align*}
+			\alpha(0)&:=1, \\
+			\alpha(h)&:=\Phi_{hh},\ h\geq1, \\
+			\mbox{donde }\Phi_{hh}\mbox{ es el último componente de }\Phi&:=\Gamma_h^{-1}\boldsymbol{\gamma}_h, \\
+			\Gamma_h&:=[\gamma_X(i-j)]_{i,j=1}^h, \\
+			\mbox{y }\boldsymbol{\gamma}_h&:=(\gamma_X(1),\dots,\gamma_X(h))^T.
+		\end{align*}
+		Cuando \(\{x_t\}\) es una realización del modelo de \(\{X_t\}\), la \textit{función de autocorrelación parcial muestral} de \(\{x_t\}\) se denota \(\hat{\alpha}\) y se define de manera análoga, cambiando las funciones exactas por sus versiones de la muestra.
+	\end{definition}
+	Ya podemos introducir los dos primeros criterios para elegir los parámetros.
+	\begin{proposition}[Elegir un valor de \(p\)]
+		Un criterio útil para elegir el valor de \(p\) de un modelo \(\ARMA(p,q)\) es graficando la {\rm función de autocorrelación parcial}, ayudándonos de donde \(\hat{\alpha}\) sea idénticamente cero.
+	\end{proposition}
+	\begin{proof}
+		En un modelo \(\AR(p)\), tenemos que \(\alpha(h)\) para \(h>p\) es igual a cero pues la covarianza es idénticamente cercana a cero. Entonces, los valores de \(\hat{\alpha}\) cercanos a cero indican covarianza muy baja, por lo que el modelo estimado ya tiene una cantidad buena de parámetros.
+	\end{proof}
+	\begin{proposition}[Elegir un valor de \(q\)]
+		Un criterio útil para elegir el valor de \(q\) de un modelo \(\ARMA(p,q)\) es graficando la {\rm función de autocorrelación}, ayudándonos de donde \(\hat{\rho}\) decaiga de manera rápida.
+	\end{proposition}
+	\begin{proof}
+		En un modelo \(\MA(q)\), tenemos que \(\rho(h)\) debe decaer pues los ruidos blancos no deberían estar correlacionados. Entonces, los valores de \(\hat{\rho}\) donde la función decae más rápido nos indican una correlación baja, por lo que el modelo estimado ya tiene una cantidad buena de parámetros.
+	\end{proof}
+	No es necesario establecer un criterio para \(d\) pues arriba ya se mencionaron dos pruebas de hipótesis que nos indican si la serie requiere diferenciación o no. Por ende, elegir \(d\) se apoya en dichas pruebas y en ver cuánta diferenciación da un mejor modelo -- claro, sin excedernos. Más aún, estos dos criterios se basan sólo en la evidencia visual. Dos personas podrían tener opiniones distintas de cuántos parámetros ocuparía el modelo en base a lo que ellos vean en las gráficas, y su proceso de razonamiento. Un método más objetivo sería considerar minimizar el error que tenga el modelo. Una métrica que cuantifica esto es la siguiente.
+	\begin{definition}[Criterio de información de Akaike] \label{defAkaike}
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta descrita por un modelo \(\ARIMA(p,d,q)\)\footnote{En general el criterio se define para cualquier modelo; de hecho, está fundado en la teoría de la información y no en las series de tiempo.}. El \textit{criterio de información de Akaike} de nuestro modelo se define como \[\operatorname{AIC}:=2(p+d+q-1)-2\log L(\beta,S(\beta)/n),\] donde \(L\) es la función de verosimilitud del modelo y \[S(\beta)=\sum_{i=1}^n(X_j-\hat{X_j})^2/\MSE(\hat{X_j}),\] con \(\hat{X_j}\) el valor predicho de \(\hat{X_j}\). (Esta predicción es función de \(\beta\), parámetros de nuestro modelo).
+	\end{definition}
+	Minimizar el criterio de información de Akaike es una de las maneras recomendadas en \autocite{brockwelldavis} para elegir un modelo ARIMA. Como podemos ver, dicho criterio también depende de los parámetros que tiene el modelo, y aunque no tan dominantes comparado con el logaritmo, siguen teniendo que ser tomados en cuenta. Esto muestra que el mejor modelo no es sólo el que ajuste mejor los datos o minimize un sólo valor de tantas métricas existentes, si no el que nos dé el mejor equilibrio entre calidad, tiempo y costo para calcular. Un modelo ARIMA con una cantidad exagerada de parámetros deja de ser práctico porque no se pueden hacer cálculos útiles sobre sus estadísticos, pues al depender de más valores a estimes, somos más propensos a errores de cálculo e incluso nos arriesgamos a no hallar solución (si el sistema no está totalmente determinado, por ejemplo).\par
+	Por último, análogo al intervalo de confianza y su papel en estimar qué valores puede tomar un parámetro, se tiene su análogo (aproximado) para verificar dónde podría caer el valor verdadero de una predicción.
+	\begin{definition}[Intervalo de predicción aproximado]
+		Sea \(\{X_t\}\) una serie de tiempo estacionaria o una realización de esta descrita por un modelo \(\ARIMA(p,d,q)\). Si \(\hat{X_{n+m}}\) es un valor predicho (dentro o fuera del conjunto de datos), un intervalo de predicción del \(100(1-\alpha)\%\) para \(\hat{X_{n+m}}\) aproximadamente normal está dado por \[\left(\hat{X_{n+m}}-z_{1-\alpha/2}\sqrt{\hat{\sigma}^2\sum_{i=0}^{m-1}\theta_i^2},\hat{X_{n+m}}+z_{1-\alpha/2}\sqrt{\hat {\sigma}^2\sum_{i=0}^{m-1}\theta_i^2}\right),\] con \(\hat{\sigma}^2\) la varianza aproximada del modelo y \(\theta_i\) los parámetros (incluyendo convirtiendo el modelo \(\AR(p)\) a un modelo general lineal, de ser necesario).
+	\end{definition}
+	Conforme la predicción se aleje, el término \(\sum_{i=0}^{m-1}\theta_i^2\) aumenta, por lo que el intervalo de predicción se expande, y a pesar de tener la misma confianza, podría no ser muy útil. \par
+	En resumen, uno puede considerar distintas métricas y pruebas visuales o un poco más rigurosas para elegir \((p,d,q)\), pero al final del día el usuario debe optar por el modelo que sea práctico, que se ajuste bien a los datos, y que no sacrifique rendimiento o tiempo. Y, al igual que realizar estimaciones, uno puede crear un intervalo para estas predicciones
+	\clearpage
+	\section{Análisis de datos}
+	\subsection{Visualización de la serie de tiempo}
+	\noindent En primer lugar se trabajó con la serie de tiempo de los casos diarios de COVID-19 en México dada por la base de datos del CONACyT\autocite{web:conacyt}. Lo primero hecho fue graficar la serie (Figura 2).
+	\begin{center}
+		\includegraphics[width=6in]{C:/Users/esele/Desktop/datos_seminario/casos_diarios_total.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 en todo el país. Se cuenta desde el inicio de la pandemia el 26 de febrero de 2020 hasta el 30 de abril de 2022.}}
+	\end{center}
+	\indent Lo primero que podemos notar son cuatro incrementos: el primero a partir de julio de 2020, correspondiente al periodo típico de las vacaciones de verano, seguido por otro repunte en enero del 2021, explicado por la variante Delta. De aquí sigue una caída significativa hasta el julio del 2021, donde podemos explicar el repunte con una combinación de factores, específicamente el periodo veraniego y la variante Lambda del virus. De esto sigue un periodo valle en casos hasta un pico masivo en enero y febrero del 2022, que corresponde a la variante Omicrón del SARS-CoV-2 y al periodo de invierno asociado con las festividades navideñas. A partir de marzo del 2022 se ve una caída en los casos, en particular siendo la menor cantidad diaria de contagios desde que llegó el virus a México. Esto lo podemos interpretar argumentado que la serie si tiene un componente de temporalidad de alrededor de 6 meses. La serie, sin embargo, no parece tener tendencia alguna, pues nunca hay un aumento o decremento constante o polinómico en los casos. En conclusión, nuestra serie \(\{x_t\}\) es una realización de una sucesión de variables \(\{X_t\}\) de la forma \[X_t=s_t+Y_t.\]
+	\subsection{Modelo ARIMA aplicado a marzo y abril del 2022}
+	\noindent Para mostrar la viabilidad de aplicar los métodos de series de tiempo a nuestros datos, vamos a considerar un conjunto reducido de estos. Para ello, se tomaron datos de marzo y abril del 2022 (Figura 3). Claramente podemos ver que los casos van a la baja en este intervalo de tiempo.
+	\begin{center}
+		\includegraphics[width=4.8in]{C:/Users/esele/Desktop/datos_seminario/casos_marzo.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 en todo el país, restringiendo los datos a marzo y abril de 2022.}}
+	\end{center}
+	\par Ahora bien, vamos a ver si esta parte de la serie es estacionaria o si hay tendencia o temporada. Para ello, utilizaremos las pruebas ADF y KPSS introducidas en las proposiciones \ref{defADF} y \ref{defKPSS}. Esperando un \(95\%\) de confianza (i.e. \(\alpha=0.05\)), obtenemos los siguientes valores de \(p\) al aplicar las pruebas de hipótesis.
+ 	\begin{verbatim}
+ 		Valor p de la prueba DFA:  5.250540088390928e-06 
+ 		Valor p de la prueba KPSS: 0.1\end{verbatim}
+ 	\par Como \(p<0.05\) en la prueba DFA, podemos rechazar que la serie tiene una raíz unitaria, y como \(p>0.05\) en la prueba KPSS, no podemos rechazar que la serie sea estacionaria, con un \(95\%\) de confianza. Por lo tanto, no necesitamos diferenciar nuestra serie. \\
+ 	\indent Para decidir qué modelo \(\ARIMA\) se ajusta mejor a la serie reducida, nos ayudaremos con las gráficas de las funciones de autocorrelación y autocorrelación parcial (Figuras 4 y 5).
+ 	\begin{center}
+ 		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/acf_marzo.png}
+ 		\captionof{figure}{\centering{Función de autocorrelación de los datos de COVID-19 en el país, restringiendo los datos a marzo y abril de 2022.}}
+ 		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pacf_marzo.png}
+ 		\captionof{figure}{\centering{Función de autocorrelación parcial de los datos de COVID-19 en el país, restringiendo los datos a marzo y abril de 2022.}}
+ 	\end{center}
+ 	\par En este caso la evidencia visual nos podría sugerir un valor de \(q=9\), viendo que a partir del décimo retraso la función de correlación parcial se estabiliza alrededor de cero, pero no podemos inferir nada para \(p\) o \(d\). Entonces buscaremos los parámetros \((p,d,q)\) los cuales minimizarán el criterio de información de Akaike con el modelo ajustado a nuestros datos. Considerando un máximo de 10 parámetros -- i.e. \(0\leq p,d,q\leq10\) -- y probando todas las combinaciones, encontramos que un modelo \(\ARIMA(6,3,9)\) se ajustaba mejor a los datos. Con dicho modelo tenemos los siguientes estadísticos descriptivos.
+ 	\begin{verbatim}
+ 		                               SARIMAX Results                                
+ 		==============================================================================
+ 		Dep. Variable:               Nacional   No. Observations:                   61
+ 		Model:                 ARIMA(6, 3, 9)   Log Likelihood                -327.486
+ 		Date:                Sat, 07 May 2022   AIC                            686.972
+ 		Time:                        17:57:22   BIC                            716.912
+ 		Sample:                    03-01-2022   HQIC                           698.286
+ 		- 04-30-2022                                         
+ 		Covariance Type:                  opg                                         
+ 		==============================================================================
+ 		coef    std err          z      P>|z|      [0.025      0.975]
+ 		------------------------------------------------------------------------------
+ 		ar.L1         -0.7546      0.459     -1.643      0.100      -1.655       0.146
+ 		ar.L2         -0.7950      0.136     -5.864      0.000      -1.061      -0.529
+ 		ar.L3         -0.8529      0.360     -2.366      0.018      -1.559      -0.146
+ 		ar.L4         -0.7176      0.234     -3.063      0.002      -1.177      -0.258
+ 		ar.L5         -0.8117      0.225     -3.612      0.000      -1.252      -0.371
+ 		ar.L6         -0.5961      0.311     -1.916      0.055      -1.206       0.014
+ 		ma.L1         -2.2333      6.255     -0.357      0.721     -14.492      10.026
+ 		ma.L2          2.0134     11.665      0.173      0.863     -20.850      24.877
+ 		ma.L3         -1.8280      8.083     -0.226      0.821     -17.671      14.015
+ 		ma.L4          1.1723      6.975      0.168      0.867     -12.498      14.842
+ 		ma.L5          0.6461      6.866      0.094      0.925     -12.810      14.102
+ 		ma.L6         -1.9291      7.810     -0.247      0.805     -17.237      13.378
+ 		ma.L7          0.7921     11.868      0.067      0.947     -22.469      24.054
+ 		ma.L8          1.2155      5.122      0.237      0.812      -8.823      11.254
+ 		ma.L9         -0.8646      6.454     -0.134      0.893     -13.515      11.786
+ 		sigma2      1.558e+04   1.25e+05      0.125      0.901   -2.29e+05     2.6e+05
+ 		===================================================================================
+ 		Ljung-Box (L1) (Q):                   0.07   Jarque-Bera (JB):                 1.72
+ 		Prob(Q):                              0.80   Prob(JB):                         0.42
+ 		Heteroskedasticity (H):               0.27   Skew:                             0.20
+ 		Prob(H) (two-sided):                  0.01   Kurtosis:                         3.83
+ 		===================================================================================\end{verbatim}
+	\par Con este modelo ajustado a la serie restringida, vamos a verificar su calidad comparando los datos reales de los casos que hubo en abril de 2022 contra los que el modelo esperaría (Figura 6).
+	\begin{center}
+		\includegraphics[width=4.8in]{C:/Users/esele/Desktop/datos_seminario/pred_abril_marzo.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde) y un intervalo de predicción (gris claro).}}
+	\end{center}
+	\par Como podemos ver, los valores que predijo el modelo se asemejan bastante a los casos que verdaderamente hubo en México en abril de 2022. Teniendo eso en cuenta, vamos a verificar qué cantidad de casos son esperados por el modelo \(\ARIMA(6,3,9)\) para el mes de mayo del 2022 (Figura 7). Podemos ver que el modelo espera que los casos aumenten un poco, lo cual es de esperarse pues los primeros datos de marzo muestran que los casos eran algo altos. Otra cosa más que podemos observar es el intervalo de predicción. Veamos que, conforme aumentan los días, el modelo crece en incertidumbre de dónde caerán los datos verdaderos. Esto lo podemos atribuir, primero a los casos un poco elevados de principios de marzo, y segundo, que usamos muy pocos valores en la serie de tiempo (tan sólo la información de 61 días). Así, aún teniendo un \(95\%\) de confianza, no podemos ser muy específicos en dónde caerán los casos diarios.\clearpage
+	\begin{center}
+ 		\includegraphics[width=4.8in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_marzo.png}\vspace*{-1em}
+ 		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de mayo a partir de los de marzo y abril (verde) y un intervalo de predicción (gris claro).}}
+ 	\end{center}
+	\par Ahora vamos a verificar la validez de los resultados mediante una gráfica de residuos, así como supuestos de normalidad y las correlaciones. (Figura 8) La gráfica de residuos no muestra patrones ni tendencias. Además, el histograma y la gráfica Q-Q sugieren que los datos sí están normalmente distribuidos, y no has valores atípicos en el correlograma. Por lo tanto, nuestro modelo es válido.
+	\begin{center}
+		\hspace*{-1em}\includegraphics[width=6.4in]{C:/Users/esele/Desktop/datos_seminario/modelo_marzo_diag.png}
+		\captionof{figure}{\centering{Gráfica de residuos, histograma, gráfica QQ y correlograma del modelo ajustado a la serie de tiempo restringida a marzo y abril de 2022.}}
+	\end{center}
+	\subsection{Modelo ARIMA aplicado a partir de diciembre del 2021}
+	\noindent Inspirados por el hecho de que el modelo aplicado a una cantidad pequeña de datos nos ayudaba un poco a describir cómo progresarían los casos, vamos hora a aplicar un modero \(\ARIMA\) a una serie de tiempo que toma datos desde diciembre del 2021, que es cuando llegó la variante Omicrón del SARS-CoV-2 a México (Figura 9).
+	\begin{center}
+		\includegraphics[width=4.8in]{C:/Users/esele/Desktop/datos_seminario/casos_diciembre.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 en todo el país, restringiendo los datos a partir de diciembre del 2021.}}
+	\end{center}
+	\par De esta gráfica podemos inferir que los casos de COVID-19 iniciaron en aumento a partir de enero del 2022, coincidente con las celebraciones al final de año. Dicho eso, vamos a verificar si la serie es estacionaria.
+	\begin{verbatim}
+		Valor p de la prueba DFA:  0.4029280746681111 
+		Valor p de la prueba KPSS: 0.043701024418397946\end{verbatim}
+	Como \(p>0.05\) en la prueba DFA, no podemos rechazar que la serie tiene una raíz unitaria, y como \(p<0.05\) en la prueba KPSS, rechazamos que la serie es estacionaria, con un \(95\%\) de confianza. Por lo tanto, debemos de diferenciar nuestra serie (Figura 10). Aplicando estas pruebas de hipótesis una vez más, obtenemos los siguientes valores de \(p\).
+	\begin{verbatim}
+		Valor p de la prueba DFA:  0.003367712376153881 
+		Valor p de la prueba KPSS: 0.1\end{verbatim}
+	\par Análogo al caso de la serie restringida a marzo y abril de 2022, podemos concluir que esta serie es estacionaria. Entonces, vamos a encontrar un modelo \(\ARIMA\) adecuado de manera similar al anterior. Primero verificamos las funciones de autocorrelación y autocorrelación parcial de la serie diferenciada (Figuras 11 y 12). En este caso la evidencia visual no nos ayuda a inferir una suposición para \(p\), \(q\) o \(d\). Buscaremos los parámetros \((p,d,q)\) que minimizan el criterio de información de Akaike con el modelo ajustado a nuestros datos. Considerando un máximo de 10 parámetros -- i.e. \(0\leq p,d,q\leq10\) -- y probando todas las combinaciones, resultó ser que un modelo \(\ARIMA(6,3,9)\) es una vez más el mejor para nuestros datos. Con dicho modelo tenemos los siguientes estadísticos descriptivos.
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/casos_diciembre_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 en todo el país, restringiendo los datos a partir de diciembre del 2021, diferenciada.}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/acf_diciembre_dif.png}
+		\captionof{figure}{\centering{Función de autocorrelación de los datos de COVID-19 en el país, restringiendo los datos a partir de diciembre del 2021, diferenciados.}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pacf_diciembre_dif.png}
+		\captionof{figure}{\centering{Función de autocorrelación parcial de los datos de COVID-19 en el país, restringiendo los datos a partir de diciembre del 2021, diferenciados.}}
+	\end{center}
+	\begin{verbatim}
+		==============================================================================
+		Dep. Variable:               Nacional   No. Observations:                  150
+		Model:                 ARIMA(6, 3, 9)   Log Likelihood               -1355.529
+		Date:                Sat, 07 May 2022   AIC                           2743.059
+		Time:                        23:02:47   BIC                           2789.778
+		Sample:                    12-02-2021   HQIC                          2762.044
+		- 04-30-2022
+		Covariance Type:                  opg
+		==============================================================================
+		coef    std err          z      P>|z|      [0.025      0.975]
+		------------------------------------------------------------------------------
+		ar.L1         -0.9520      0.095    -10.053      0.000      -1.138      -0.766
+		ar.L2         -1.0050      0.096    -10.480      0.000      -1.193      -0.817
+		ar.L3         -0.9435      0.114     -8.265      0.000      -1.167      -0.720
+		ar.L4         -0.9479      0.101     -9.365      0.000      -1.146      -0.750
+		ar.L5         -0.8924      0.080    -11.211      0.000      -1.048      -0.736
+		ar.L6         -0.8060      0.084     -9.560      0.000      -0.971      -0.641
+		ma.L1         -2.1641      0.159    -13.628      0.000      -2.475      -1.853
+		ma.L2          1.3112      0.375      3.497      0.000       0.576       2.046
+		ma.L3         -0.0153      0.554     -0.028      0.978      -1.101       1.071
+		ma.L4         -0.1310      0.630     -0.208      0.835      -1.365       1.103
+		ma.L5         -0.1325      0.563     -0.235      0.814      -1.236       0.971
+		ma.L6          0.3987      0.450      0.887      0.375      -0.483       1.280
+		ma.L7          0.0221      0.402      0.055      0.956      -0.765       0.809
+		ma.L8         -0.7802      0.332     -2.352      0.019      -1.430      -0.130
+		ma.L9          0.4933      0.128      3.869      0.000       0.243       0.743
+		sigma2      3.184e+07   1.64e-08   1.94e+15      0.000    3.18e+07    3.18e+07
+		===================================================================================
+		Ljung-Box (L1) (Q):                   0.73   Jarque-Bera (JB):               256.34
+		Prob(Q):                              0.39   Prob(JB):                         0.00
+		Heteroskedasticity (H):               0.01   Skew:                            -0.04
+		Prob(H) (two-sided):                  0.00   Kurtosis:                         9.70
+		===================================================================================\end{verbatim}
+		\clearpage\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_marzo_diciembre_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_diciembre_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde) y un intervalo de predicción (gris claro).}}
+	\end{center}
+	\par Primero aplicamos el modelo a la serie diferenciada (Figuras 13 y 14) antes de invertir las transformaciones y verificar los resultados. Como diferenciamos antes de ajustar al modelo, debemos considerar en este una diferenciación más, es decir, ajustar con un \(\ARIMA(6,4,9)\). \\
+	\indent Una vez transformada, con este modelo ajustado a la serie restringida, vamos a verificar su calidad comparando los datos reales de los casos que hubo en abril de 2022 contra los que el modelo esperaría (Figura 15). De manera similar al ajuste que sólo tomaba a los datos de marzo y abril, los valores que predijo el modelo ajustado a nuestra serie extendida se asemejan bastante a los casos que verdaderamente hubo en México en marzo y abril de 2022. Teniendo eso en cuenta, vamos a verificar qué cantidad de casos son esperados por el modelo \(\ARIMA(6,4,9)\) para mayo del 2022 (Figuras 16 y 17). \\
+	\indent Guiándonos por la figura 17, el modelo espera que los casos diarios de COVID-19 en México tengan un repunte repentino en el mes de mayo. Este aumento se debe a que el modelo toma como referencia el pico de los casos de la variante Omicrón, cuando había muchas infecciones nuevas diarias, como referencia. Más aún, como observamos en la figura 16, el intervalo de predicción es muy extendido, debido a este mismo pico de casos, incluso obviando los valores negativos. Por lo tanto, a pesar de tener un \(95\%\) de confianza, no hay mucha certidumbre en que los casos se mantendrán a la alta ni a la baja.
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_marzo_diciembre.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_diciembre.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_diciembre_noci.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 nacionales de abril y marzo de 2022 (azul), junto con una predicción de los casos de abril a partir de los de marzo (verde).}}
+	\end{center}\clearpage
+	\par Ahora vamos a verificar la validez de los resultados mediante una gráfica de residuos, así como supuestos de normalidad y las correlaciones (Figura 18).
+	\begin{center}
+		\hspace*{-1em}\includegraphics[width=6.4in]{C:/Users/esele/Desktop/datos_seminario/modelo_diciembre_diag.png}
+		\captionof{figure}{\centering{Gráfica de residuos, histograma, gráfica QQ y correlograma del modelo ajustado a la serie de tiempo restringida a diciembre de 2021.}}
+	\end{center}
+	\par La gráfica de residuos no muestra patrones ni tendencias. Además, el histograma y la gráfica Q-Q sugieren que los datos sí están normalmente distribuidos, y no has valores atípicos en el correlograma. Por lo tanto, nuestro modelo es válido. A pesar de ello, este modelo resultó no ser muy bueno.
+	\subsection{Modelo ARIMA aplicado a toda la serie}
+	\noindent Por último vamos a probar formando un modelo de predicción con toda la serie. Recordemos (Figura 2) que la serie de tiempo de los casos diarios totales parecía tener temporada. Aplicando una prueba DFA y KPSS, obtenemos lo siguiente.
+	\begin{verbatim}
+		Valor p de la prueba DFA:  8.502635297854753e-13
+		Valor p de la prueba KPSS: 0.1\end{verbatim}\par
+	Como \(p<0.05\) en la prueba DFA, podemos rechazar que la serie tiene una raíz unitaria, y como \(p>0.05\) en la prueba KPSS, no podemos rechazar que la serie sea estacionaria, con un \(95\%\) de confianza. Por lo tanto, no necesitamos diferenciar nuestra serie. Sin embargo, para asegurarnos que la temporada no influya en el modelo, vamos a diferenciar una vez más (ver Figura 19), y aplicar las pruebas de hipótesis.
+	\begin{verbatim}
+		Valor p de la prueba DFA:  0.005291379924217426
+		Valor p de la prueba KPSS: 0.08240548911854784\end{verbatim}
+	Al igual que en el caso anterior, no podemos rechazar que la serie sea estacionaria con un \(95\%\) de confianza.
+	\begin{center}
+		\includegraphics[width=6in]{C:/Users/esele/Desktop/datos_seminario/casos_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 en todo el país, desde el comienzo de la pandemia, diferenciada.}}
+	\end{center}
+	\par Entonces, vamos a encontrar un modelo \(\ARIMA\) adecuado de manera similar al anterior. Primero verificamos las funciones de autocorrelación y autocorrelación parcial de la serie diferenciada (Figuras 20 y 21). En este caso la evidencia visual sugiere un valor alrededor de 10 para \(p\) y 8 para \(q\). Buscaremos los parámetros \((p,d,q)\) que minimizan el criterio de información de Akaike con el modelo ajustado a nuestros datos. Considerando un máximo de 10 parámetros -- i.e. \(0\leq p,d,q\leq10\) -- y probando todas las combinaciones, resultó ser que un modelo \(\ARIMA(8,1,9)\) es una vez más el mejor para nuestros datos. Con dicho modelo tenemos los siguientes estadísticos descriptivos.
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/acf_total_dif.png}
+		\captionof{figure}{\centering{Función de autocorrelación de los datos de COVID-19 en todo el país, desde el comienzo de la pandemia, diferenciados.}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pacf_total_dif.png}
+		\captionof{figure}{\centering{Función de autocorrelación parcial de los datos de COVID-19 en todo el país, desde el comienzo de la pandemia, diferenciados.}}
+	\end{center}
+	\begin{verbatim}
+		==============================================================================
+		Dep. Variable:               Nacional   No. Observations:                  795
+		Model:                 ARIMA(8, 1, 9)   Log Likelihood               -7173.685
+		Date:                Sun, 22 May 2022   AIC                          14383.370
+		Time:                        19:47:59   BIC                          14467.329
+		Sample:                    02-26-2020   HQIC                         14415.654
+		- 04-30-2022
+		Covariance Type:                  opg
+		==============================================================================
+		coef    std err          z      P>|z|      [0.025      0.975]
+		------------------------------------------------------------------------------
+		ar.L1         -0.8638      0.166     -5.194      0.000      -1.190      -0.538
+		ar.L2         -0.2469      0.059     -4.212      0.000      -0.362      -0.132
+		ar.L3         -0.2731      0.055     -4.993      0.000      -0.380      -0.166
+		ar.L4         -0.2352      0.048     -4.900      0.000      -0.329      -0.141
+		ar.L5         -0.2321      0.046     -5.089      0.000      -0.321      -0.143
+		ar.L6         -0.1912      0.042     -4.583      0.000      -0.273      -0.109
+		ar.L7          0.6206      0.040     15.567      0.000       0.542       0.699
+		ar.L8          0.5076      0.116      4.361      0.000       0.280       0.736
+		ma.L1          0.5368      0.168      3.200      0.001       0.208       0.866
+		ma.L2         -0.2593      0.050     -5.230      0.000      -0.356      -0.162
+		ma.L3          0.0981      0.037      2.658      0.008       0.026       0.171
+		ma.L4          0.1656      0.050      3.330      0.001       0.068       0.263
+		ma.L5          0.0415      0.037      1.108      0.268      -0.032       0.115
+		ma.L6          0.2226      0.047      4.769      0.000       0.131       0.314
+		ma.L7          0.4319      0.054      8.025      0.000       0.326       0.537
+		ma.L8          0.2263      0.070      3.239      0.001       0.089       0.363
+		ma.L9         -0.0689      0.043     -1.591      0.112      -0.154       0.016
+		sigma2      5.366e+06   2.23e-08    2.4e+14      0.000    5.37e+06    5.37e+06
+		===================================================================================
+		Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             26208.82
+		Prob(Q):                              0.98   Prob(JB):                         0.00
+		Heteroskedasticity (H):              12.96   Skew:                             1.06
+		Prob(H) (two-sided):                  0.00   Kurtosis:                        31.25
+		===================================================================================\end{verbatim}
+	\par Primero aplicamos el modelo a la serie diferenciada (Figuras 22 a 24) antes de invertir las transformaciones y verificar los resultados. Como diferenciamos antes de ajustar al modelo, debemos considerar en este una diferenciación más, es decir, ajustar con un \(\ARIMA(8,2,9)\).
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_enero_total_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 diferenciados (azul), junto con una predicción de los casos de enero a partir de todos (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_total_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 diferenciados (azul), junto con una predicción de los casos de mayo a partir de todos (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_22_total_dif.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 diferenciados (azul), junto con una predicción de los casos de 2022 a partir de todos (verde) y un intervalo de predicción (gris claro).}}
+	\end{center}
+	\indent Una vez transformada, con el modelo ajustado, vamos a verificar su calidad comparando los datos de los casos que hubo de enero a abril de 2022 con los que el modelo esperaría (Figuras 25 y 26).
+	\begin{center}
+		\includegraphics[width=3.5in]{C:/Users/esele/Desktop/datos_seminario/pred_enero_total.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul), junto con una predicción de los casos de enero a partir de todos (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_enero_total_zoom.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul) visualizados desde diciembre del 2021, junto con una predicción de los casos de enero a partir de todos (verde) y un intervalo de predicción (gris claro).}}
+	\end{center}
+	\par El ajuste parece bastante bueno. Ahora vamos a comprobar qué cantidad de casos son esperados por el modelo \(\ARIMA(8,2,9)\) para mayo del 2022 (Figuras 27 y 28).
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_total.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul), junto con una predicción de los casos de mayo (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_mayo_total_zoom.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul) visualizados desde diciembre del 2021, junto con una predicción de los casos de mayo (verde) y un intervalo de predicción (gris claro).}}
+	\end{center}
+	\indent La figura 27 nos muestra la incertidumbre con el intervalo de predicción pues tiene una extensión muy grande, aunque en general, esperaría que los casos se mantuvieran a la baja. Esto lo apreciamos con más claridad en la figura 28. Finalmente, vamos a hacer una predicción de todo 2022 con la serie completa, aprovechando que conocemos muchos datos (Figuras 29 y 30). Podemos ver que la incertidumbre de hecho aumenta: el intervalo de predicción es enorme, incluso descartando los datos negativos que obviamente no tienen sentido. Aunque en general el modelo espera que los casos se estabilicen en cero, no puede decirlo con total certeza. Dicho esto, el valor predicho sí indica un decremento total. Eso se puede apreciar mejor en la Figura 31.
+	\begin{center}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_22_total.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul), junto con una predicción de los casos del 2022 (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_22_total_zoom.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul) visualizados desde diciembre del 2021, junto con una predicción de los casos del 2022 (verde) y un intervalo de predicción (gris claro).}}
+		\includegraphics[width=4in]{C:/Users/esele/Desktop/datos_seminario/pred_22_total_zoom_noci.png}
+		\captionof{figure}{\centering{Serie de tiempo con los datos de COVID-19 (azul) visualizados desde diciembre del 2021, junto con una predicción de los casos del 2022 (verde).}}
+	\end{center}
+	\par Ahora vamos a verificar la validez de los resultados mediante una gráfica de residuos, así como supuestos de normalidad y las correlaciones (Figura 32).
+	\begin{center}
+		\hspace*{-1em}\includegraphics[width=6.4in]{C:/Users/esele/Desktop/datos_seminario/modelo_total_diag.png}
+		\captionof{figure}{\centering{Gráfica de residuos, histograma, gráfica QQ y correlograma del modelo ajustado a la serie de tiempo completa.}}
+	\end{center}
+	\par La gráfica de residuos no muestra patrones ni tendencias. Además, el histograma y la gráfica Q-Q sugieren que los datos sí están normalmente distribuidos -- aunque algunos valores son muy extremos --, y no hay valores atípicos en el correlograma. Por lo tanto, nuestro modelo es válido.
+	\clearpage
+	\section{Conclusiones}
+	\noindent Hemos visto cómo podemos ajustar un modelo a una situación tan variable, como lo es una pandemia de un virus con alta capacidad de mutación, por medio de las técnicas de serie de tiempo -- en específico, utilizando un modelo de autorregresión y media movible. Por una parte, los resultados son prometedores; los modelos que ajustamos son muy válidos, y en el tema de cómo predicen valores que ya conocemos con los coeficientes que encuentra el modelo es muy parecida. Por otro lado, y desafortunadamente, la inferencia que podemos realizar sobre éstos datos no es muy útil pues existe mucha incertidumbre en los modelos que ajustamos, lo cual es apreciado en los intervalos de predicción. Más aún, los modelos que encontramos en general usaban muchos coeficientes. Aunque no es mucho problema considerando el poder computacional de hoy en día, también hay que buscar un balance entre precisión y rendimiento. Sin embargo, los resultados que dan los modelos son prometedores.
+	\par A final de cuentas, la calidad de predicción de diversos tipos de datos siempre será un problema el cuál se buscará mejorar: hemos conseguido un salto de calidad en los métodos básicos de regresión lineal para lograr describir datos más complejos. Pero también hay que considerar que los modelos \(\ARIMA\) no son un elixir que mágicamente nos dirán como progresarán las cosas. Existen modelos más complejos, como autorregresión vectorial, generalizaciones de \(\ARIMA\) que sí consideran temporada (llamados \(\operatorname{SARIMA}\)), e incluso técnicas de aprendizaje de máquina que, aunque intrigantes, son muy complejas. También se tiene, en el campo de la epidemiología, métodos de modelado que son diseñados específicamente para considerar como podría esparcirse una enfermedad en la población. Hay que cerrar mencionando algo que a pesar de ser muy obvio podríamos olvidar en la búsqueda del análisis de datos, y es que la inferencia, modelado, y predicción, son procesos que se alteran en la subjetividad del estadístico. Pero ahí mismo radica la importancia de su estudio.
+	\clearpage
+	\begin{appendices}
+		\section{Código de Python}
+		\noindent El siguiente código de Python fue desarrollado para toda la sección de análisis de datos, con ayuda de las librerías \verb|NumPy|, \verb|pandas|, \verb|statsmodels| y \verb|matplotlib|.
+		\begin{lstlisting}[language=Python]
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+import os.path
+import statsmodels.tsa.ar_model as ar_model
+import statsmodels.tsa.arima.model as arima_model
+import itertools
+from matplotlib import cycler
+
+def graficar(serie,title,xax,yax,etiqueta,filename):
+    """
+       graficar(serie,titulo,xax,yax,filename): genera una gráfica
+       Entrada: serie: datos a graficar
+                titulo: título de la gráfica (opcional)
+                xax: nombre del eje x (opcional)
+                yax: nombre del eje y (opcional)
+                filename: nombre para guardar la gráfica
+    """
+    if title is None:
+        title=""
+    if xax is None:
+        xax="equis"
+    if yax is None:
+        yax="i griega"
+    plt.figure(0,figsize=(12.8,7.2))
+    plt.plot(serie,label=etiqueta)
+    plt.title(title)
+    plt.xlabel(xax)
+    plt.ylabel(yax)
+    plt.legend()
+    plt.savefig(filename,bbox_inches="tight")
+    plt.close("all")
+
+def graficar_acf_pacf(serie,lag,acf_title,pacf_title,acf_filename,pacf_filename):
+    fig,ax=plt.subplots(figsize=(12.8,7.2))
+    sm.graphics.tsa.plot_acf(serie.to_numpy().squeeze(),lags=lag,fft=True,alpha=.05,
+                             title=acf_title,ax=ax)
+    plt.xlabel("Retraso")
+    plt.ylabel("Correlación")
+    plt.savefig(acf_filename,bbox_inches="tight")
+    fig,ax=plt.subplots(figsize=(12.8,7.2))
+    sm.graphics.tsa.plot_pacf(serie.to_numpy().squeeze(),lags=lag,alpha=.05,method="ywm",
+                             title=pacf_title,ax=ax)
+    plt.xlabel("Retraso")
+    plt.ylabel("Correlación parcial")
+    plt.savefig(pacf_filename,bbox_inches="tight")
+    plt.close("all")
+
+def graficar_diag(modelo,filename):
+    plt.figure(0)
+    modelo.plot_diagnostics(figsize=(19.2,10.8))
+    plt.savefig(filename,bbox_inches="tight")
+    plt.close("all")
+
+def graficar_pred(pred,serie,title,xax,yax,filename,ci=True):
+    if ci:
+        pred_ci = pred.conf_int()
+    plt.figure(0,figsize=(12.8,7.2))
+    plt.plot(serie,label="Valores observados")
+    pred.predicted_mean.plot(label="Valores predecidos", alpha=.7)
+    if ci:
+        plt.fill_between(pred_ci.index,
+                        pred_ci.iloc[:, 0],
+                        pred_ci.iloc[:, 1], color="#E6E6E6", alpha=.5)
+    plt.xlabel(xax)
+    plt.ylabel(yax)
+    plt.title(title)
+    plt.legend()
+    plt.savefig(filename,bbox_inches="tight")
+    plt.close("all")
+
+def prueba_adf_kpss(serie):
+    test1=sm.tsa.stattools.adfuller(serie)
+    test2=sm.tsa.stattools.kpss(serie)
+    return test1[1],test2[1]
+
+def min_aic(serie,pdq,aic):
+    j=0
+    for i in pdq:
+        try:
+            res=arima_model.ARIMA(serie,order=i,enforce_stationarity=False,enforce_invertibility=False).fit()
+            print(res.summary())
+            aic[j]=res.aic
+            print(aic[j])
+            j+=1
+        except:
+            continue
+    return pdq[np.argmin(aic)]
+
+if __name__=="__main__":
+    alpha=0.05
+
+    # esto se encarga de inicializar las gráficas
+    plt.close("all")
+    colors = cycler("color",["#1234BB","#319F5B","#C70664",
+                                "#C40F0F","#B74B03","#92C101",
+                                "#620CC7","#2EA183","#36ACB2"])
+    plt.rc("axes", facecolor='#AAAAAA', edgecolor="none",
+            axisbelow=True, grid=True, prop_cycle=colors)
+    plt.rc("grid", color="w", linestyle="solid")
+    plt.rc("xtick", direction="out", color="#222222")
+    plt.rc("ytick", direction="out", color="#222222")
+    plt.rc("patch", edgecolor="#AAAAAA")
+    plt.rc("lines", linewidth=2)
+    
+    # lee los casos de los datos diarios y los grafica
+    diarios=pd.read_csv("C:/users/esele/Desktop/datos_seminario/diarios.csv",low_memory=False,index_col='FECHA',parse_dates=True,infer_datetime_format=True)
+    diarios=diarios.loc[:,"Nacional"]
+    graficar(diarios,
+             "Historial de casos diarios de COVID-19 en México nacionales,\nFebrero de 2020 a Mayo de 2022",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país",
+             "casos_diarios_total")
+
+    # grafica los datos pero sólo en un rango de fecha
+    fecha="3/1/2022"
+    diarios_off=diarios.loc[fecha:]
+    graficar(diarios_off,
+             "Historial de casos diarios de COVID-19 en México nacionales,\nMarzo a Mayo de 2022",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país",
+             "casos_marzo")
+    graficar_acf_pacf(diarios_off,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19\na partir de marzo del 2022",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19\na partir de marzo del 2022",
+                      "acf_marzo","pacf_marzo")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios_off)[0],"\nValor p de la prueba KPSS:",prueba_adf_kpss(diarios_off)[1])
+
+    diarios_dif=(diarios_off-diarios_off.shift(1)).dropna()
+    graficar(diarios_dif,
+             "Serie diferenciada del historial de casos diarios de COVID-19 en México nacionales,\nMarzo a Mayo de 2022",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país (diferenciados)",
+             "casos_marzo_dif")
+    graficar_acf_pacf(diarios_dif,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19 diferenciados\na partir de marzo del 2022",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19 diferenciados\na partir de marzo del 2022",
+                      "acf_marzo_dif","pacf_marzo_dif")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios_dif)[0],"\nValor p de la prueba KPSS:",prueba_adf_kpss(diarios_dif)[1])
+
+    # p=q=range(0,10)
+    # pq=list(itertools.product(p,{0},q))
+    # aic=np.zeros(100)
+    # x=min_aic(diarios_off,pq,aic)
+    # print(x)
+    # (8,0,9)
+    # res=arima_model.ARIMA(diarios_off,order=x,enforce_stationarity=False,enforce_invertibility=False).fit()
+    res=arima_model.ARIMA(diarios_off,order=(6,3,9),enforce_stationarity=False,enforce_invertibility=False).fit()
+    print(res.summary())
+    graficar_diag(res,"modelo_marzo_diag")
+
+    # genera una predicción fuera de muestra
+    dias=31
+    pred=res.get_forecast(steps=dias)
+    graficar_pred(pred,diarios_off,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Mayo del 2022\ncon datos de Marzo y Abril del 2022",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_mayo_marzo")
+
+    #genera una predicción dentro de muestra
+    pred=res.get_prediction(start="4/1/2022")
+    graficar_pred(pred,diarios_off,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Abril del 2022\ncon datos de Marzo y Abril del 2022",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_abril_marzo")
+
+    # grafica los datos pero sólo en un rango de fecha
+    fecha="12/1/2021"
+    diarios_off=diarios.loc[fecha:]
+    graficar(diarios_off,
+             "Historial de casos diarios de COVID-19 en México nacionales,\nDiciembre de 2021 a Mayo de 2022",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país",
+             "casos_diciembre")
+    graficar_acf_pacf(diarios_off,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19\na partir de diciembre del 2021",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19\na partir de diciembre del 2021",
+                      "acf_marzo","pacf_marzo")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios_off)[0],"\nValor p de la prueba KPSS:",prueba_adf_kpss(diarios_off)[1])
+
+    diarios_dif=(diarios_off-diarios_off.shift(1)).dropna()
+    graficar(diarios_dif,
+             "Serie diferenciada del historial de casos diarios de COVID-19 en México nacionales,\nDiciembre de 2021 a Mayo de 2022",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país (diferenciados)",
+             "casos_diciembre_dif")
+    graficar_acf_pacf(diarios_dif,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19 diferenciados\na partir de diciembre del 2021",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19 diferenciados\na partir de diciembre del 2021",
+                      "acf_diciembre_dif","pacf_diciembre_dif")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios_dif)[0],"\nValor p de la prueba KPSS: ",prueba_adf_kpss(diarios_dif)[1])
+
+    # p=q=range(0,10)
+    # pq=list(itertools.product(p,{0},q))
+    # aic=np.zeros(100)
+    # x=min_aic(diarios_dif,pq,aic)
+    # print(x)
+    # (6,3,9) (pero una diferenciación aparte)
+    # res=arima_model.ARIMA(diarios_dif,order=x,enforce_stationarity=False,enforce_invertibility=False).fit()
+    res=arima_model.ARIMA(diarios_dif,order=(6,3,9),enforce_stationarity=False,enforce_invertibility=False).fit()
+    print(res.summary())
+    graficar_diag(res,"modelo_diciembre_diag")
+
+    # genera una predicción fuera de muestra
+    dias=31
+    pred=res.get_forecast(steps=dias)
+    graficar_pred(pred,diarios_dif,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Mayo del 2022\ncon datos de Diciembre del 2021, diferenciados",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_mayo_diciembre_dif")
+
+    #genera una predicción dentro de muestra
+    pred=res.get_prediction(start="3/1/2022")
+    graficar_pred(pred,diarios_dif,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Marzo del 2022\ncon datos de Diciembre del 2021, diferenciados",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_marzo_diciembre_dif")
+
+    # total!!
+    graficar_acf_pacf(diarios,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19",
+                      "acf_total","pacf_total")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios)[0],"\nValor p de la prueba KPSS:",prueba_adf_kpss(diarios)[1])
+
+    diarios_dif=(diarios-diarios.shift(1)).dropna()
+    graficar(diarios_dif,
+             "Serie diferenciada del historial de casos diarios de COVID-19 en México nacionales",
+             "Fecha",
+             "Casos diarios",
+             "Casos en el país (diferenciados)",
+             "casos_dif")
+    graficar_acf_pacf(diarios_dif,25,
+                      "Función de autocorrelación de los casos diarios de COVID-19 diferenciados",
+                      "Función de autocorrelación parcial de los casos diarios de COVID-19 diferenciados",
+                      "acf_total_dif","pacf_total_dif")
+    print("Valor p de la prueba DFA: ",prueba_adf_kpss(diarios_dif)[0],"\nValor p de la prueba KPSS: ",prueba_adf_kpss(diarios_dif)[1])
+
+    # p=d=q=range(0,10)
+    # pdq=list(itertools.product(p,d,q))
+    # aic=np.zeros(1000)
+    # x=min_aic(diarios_dif,pdq,aic)
+    # print(x)
+    # (8,1,9) (pero una diferenciación aparte)
+    # res=arima_model.ARIMA(diarios_dif,order=x,enforce_stationarity=False,enforce_invertibility=False).fit()
+    res=arima_model.ARIMA(diarios,order=(8,2,9),enforce_stationarity=False,enforce_invertibility=False).fit()
+    print(res.summary())
+    # graficar_diag(res,"modelo_total_diag")
+
+    # genera una predicción fuera de muestra
+    dias=31
+    pred=res.get_forecast(steps=dias)
+    graficar_pred(pred,diarios,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Mayo del 2022\ncon todos los datos (sin IP)",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_mayo_total_noci",ci=False)
+    dias=244
+    pred=res.get_forecast(steps=dias)
+    graficar_pred(pred,diarios,
+                  "Casos diarios de COVID-19 en México nacionales esperados para el 2022\ncon todos los datos (sin IP)",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_22_total_noci",ci=False)
+
+    #genera una predicción dentro de muestra
+    pred=res.get_prediction(start="1/1/2022")
+    graficar_pred(pred,diarios,
+                  "Casos diarios de COVID-19 en México nacionales esperados a partir de Enero del 2022\ncon todos los datos (sin IP)",
+                  "Fecha",
+                  "Casos diarios esperados",
+                  "pred_enero_total_noci",ci=False)\end{lstlisting}
+	\end{appendices}
+	\clearpage
+	\rhead{Referencias biliográficas}
+	\addcontentsline{toc}{section}{Referencias}
+	\printbibliography[title={Referencias bibliográficas}]
+\end{document}
